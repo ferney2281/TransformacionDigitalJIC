@@ -70,17 +70,23 @@ body {
 /* ==========================================
    2. NAVBAR & HAMBURGER
    ========================================== */
+/* 1. La franja blanca ocupa todo el ancho de la pantalla */
 header.navbar {
+  width: 100%;
+  background-color: #ffffff; /* Fondo blanco completo */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* 2. El contenedor interno distribuye el logo y el menú de borde a borde pero dentro del margen central */
+header.navbar > .navbar-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  background-color: #ffffff;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 }
 
 .nav-wrapper {
@@ -291,6 +297,14 @@ header.navbar {
   transform: translateX(4px); /* Desplaza ligeramente la flecha a la derecha */
 }
 
+/* Previene la traducción automática en todos los iconos de Google */
+.material-symbols-outlined {
+  -webkit-font-smoothing: antialiased;
+  text-transform: none;
+  line-height: 1;
+  /* Atributos para que Google Translate no traduzca el texto interno */
+  translate: no;
+}
 
 
 /* ==========================================

@@ -1,5 +1,6 @@
 // src/pages/Home.jsx
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { siteContent } from '../data/contentData';
 import { Card } from '../components/common/Card';
 
@@ -16,46 +17,53 @@ export const Home = () => {
   return (
     <div className="main-layout">
       {/* 1. HEADER / NAVEGACIÓN */}
-      <header className="container navbar">
-        <div className="logo-container">
-          {header.logoUrl && (
-            <img 
-              src={header.logoUrl} 
-              alt={header.logoText} 
-              className="logo-img" 
-            />
-          )}
-          {/* Si quieres mostrar texto junto a la imagen, descomenta la siguiente línea: */}
-          {/* <span>{header.logoText}</span> */}
+      <header className="navbar">
+        <div className="container navbar-content">
+          
+          {/* LOGO */}
+          <div className="logo-container">
+            {header.logoUrl && (
+              <img 
+                src={header.logoUrl} 
+                alt={header.logoText} 
+                className="logo-img" 
+              />
+            )}
+          </div>
+
+          {/* BOTÓN HAMBURGUESA (Móvil) */}
+          <button 
+            className={`hamburger ${isMenuOpen ? 'is-active' : ''}`} 
+            onClick={toggleMenu}
+            aria-label="Abrir menú"
+          >
+            <span className="line"></span>
+            <span className="line"></span>
+            <span className="line"></span>
+          </button>
+
+          {/* MENÚ DE NAVEGACIÓN */}
+          <nav className={`nav-wrapper ${isMenuOpen ? 'open' : ''}`}>
+            <ul className="nav-menu">
+              {header.navLinks.map((item) => (
+                <li key={item.id} className={`nav-item ${item.active ? 'active' : ''}`}>
+                  {/* Usamos <Link> para evitar que la página recargue al cambiar de sección */}
+                  <Link 
+                    to={item.id === 'herramientas' || item.id === 'tools' ? '/tools' : '/'} 
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <button className="btn-primary nav-cta">{header.ctaButton}</button>
+          </nav>
+
         </div>
-
-        {/* BOTÓN HAMBURGUESA (Solo visible en pantallas pequeñas) */}
-        <button 
-          className={`hamburger ${isMenuOpen ? 'is-active' : ''}`} 
-          onClick={toggleMenu}
-          aria-label="Abrir menú"
-        >
-          <span className="line"></span>
-          <span className="line"></span>
-          <span className="line"></span>
-        </button>
-
-        {/* MENÚ DE NAVEGACIÓN */}
-        <nav className={`nav-wrapper ${isMenuOpen ? 'open' : ''}`}>
-          <ul className="nav-menu">
-            {header.navLinks.map((item) => (
-              <li key={item.id} className={`nav-item ${item.active ? 'active' : ''}`}>
-                <a href={item.link} onClick={() => setIsMenuOpen(false)}>
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <button className="btn-primary nav-cta">{header.ctaButton}</button>
-        </nav>
       </header>
 
-      {/* ENVOLTORIO PARA LA IMAGEN DE FONDO (DESDE ABAJO DEL HEADER HASTA EL FOOTER) */}
+      {/* ENVOLTORIO PARA LA IMAGEN DE FONDO */}
       <div className="content-bg-wrapper">
         
         {/* 2. HERO SECTION */}
@@ -78,6 +86,7 @@ export const Home = () => {
           {cards.map((card) => (
             <Card 
               key={card.id} 
+              id={card.id}
               icon={card.icon} 
               title={card.title} 
               description={card.description} 

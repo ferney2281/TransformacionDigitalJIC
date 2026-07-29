@@ -5,4 +5,5 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: '/TransformacionDigitalJIC/',
+  //base: '/', // Apunta a la raíz del nuevo dominio
 })

@@ -1,10 +1,18 @@
 // src/App.jsx
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { Home } from './pages/Home';
+import { Tools } from './pages/Tools';
 
 function App() {
   return (
-    <Home />
+    <Routes>
+      {/* Ruta para la página de inicio */}
+      <Route path="/" element={<Home />} />
+      
+      {/* Ruta para la página de Herramientas */}
+      <Route path="/tools" element={<Tools />} />
+    </Routes>
   );
 }
 
