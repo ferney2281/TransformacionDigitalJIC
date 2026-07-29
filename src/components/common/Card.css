@@ -1,0 +1,58 @@
+/* src/components/common/Card.css */
+.card-item {
+  background-color: var(--white);
+  padding: 1.5rem 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-icon-container {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.8rem;
+}
+
+.card-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary-green);
+  margin-bottom: 0.5rem;
+}
+
+.card-description {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.card-arrow {
+  color: var(--primary-green);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.card-arrow .material-symbols-outlined {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.card-item:hover .card-arrow {
+  transform: translateX(4px);
+}

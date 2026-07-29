@@ -1,0 +1,145 @@
+/* src/pages/Home.css */
+.content-bg-wrapper {
+  width: 100%;
+  flex: 1;
+  background: linear-gradient(
+      rgba(248, 249, 250, 0.65), 
+      rgba(248, 249, 250, 0.65)
+    ), 
+    url('/Logo5RIFondo.png') no-repeat bottom center / cover;
+  padding-bottom: 2rem;
+}
+
+/* HERO SECTION */
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  gap: 2.5rem;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.title-green {
+  color: var(--primary-green);
+  display: block;
+}
+
+.title-gold {
+  color: var(--gold-color);
+  display: block;
+}
+
+.hero-description {
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  max-width: 500px;
+}
+
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* CARDS GRID */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.2rem;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+/* BANNER CTA */
+.banner-cta {
+  background-color: var(--banner-yellow);
+  border-radius: 20px;
+  padding: 1.2rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  color: var(--white);
+  margin-bottom: 3rem;
+}
+
+.banner-left {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.icon-bulb {
+  font-size: 1.5rem;
+}
+
+.banner-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.banner-divider {
+  width: 1px;
+  height: 35px;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.banner-subtitle {
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 1024px) {
+  .cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .banner-cta {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-description {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .banner-cta {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .banner-divider {
+    display: none;
+  }
+}

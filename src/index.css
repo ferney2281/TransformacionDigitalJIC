@@ -1,6 +1,18 @@
-/* ==========================================
-   1. RESET Y BASE GLOBAL
-   ========================================== */
+/* src/index.css */
+
+/* 1. VARIABLES GLOBALES DE COLOR Y TIPOGRAFÍA */
+:root {
+  --primary-green: #0d5c3a;
+  --primary-green-hover: #084228;
+  --gold-color: #c88a2b;
+  --banner-yellow: #e5a93b;
+  --text-dark: #333333;
+  --text-muted: #666666;
+  --bg-light: #f8f9fa;
+  --white: #ffffff;
+}
+
+/* 2. RESET GLOBAL */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -9,8 +21,8 @@
 
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #f8f9fa;
-  color: #333;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
   line-height: 1.5;
 }
 
@@ -25,7 +37,7 @@ body {
   flex-direction: column;
 }
 
-/* CONTENEDOR CENTRAL QUE LIMITA EL ANCHO EN PC */
+/* 3. CLASES UTILITARIAS REUTILIZABLES */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -34,25 +46,9 @@ body {
   padding-right: 1.5rem;
 }
 
-/* BRANDING & BOTONES GENERALES */
-.logo-container {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #0d5c3a;
-}
-
-.logo-img {
-  height: 35px;
-  width: auto;
-  object-fit: contain;
-}
-
 .btn-primary {
-  background-color: #0d5c3a;
-  color: #ffffff;
+  background-color: var(--primary-green);
+  color: var(--white);
   border: none;
   padding: 0.6rem 1.4rem;
   border-radius: 20px;
@@ -64,378 +60,31 @@ body {
 }
 
 .btn-primary:hover {
-  background-color: #084228;
+  background-color: var(--primary-green-hover);
 }
 
-/* ==========================================
-   2. NAVBAR & HAMBURGER
-   ========================================== */
-/* 1. La franja blanca ocupa todo el ancho de la pantalla */
-header.navbar {
-  width: 100%;
-  background-color: #ffffff; /* Fondo blanco completo */
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-}
-
-/* 2. El contenedor interno distribuye el logo y el menú de borde a borde pero dentro del margen central */
-header.navbar > .navbar-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-
-.nav-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.nav-menu {
-  display: flex;
-  list-style: none;
-  gap: 1.2rem;
-  align-items: center;
-}
-
-/* ESTILOS DE LOS ENLACES DEL MENÚ */
-.nav-wrapper .nav-menu .nav-item a {
-  color: #444444 !important;
-  text-decoration: none !important;
-  font-size: 0.95rem;
-  font-weight: 500;
-  padding: 0.4rem 0;
-  position: relative;
-  transition: color 0.2s ease-in-out;
-  display: inline-block;
-}
-
-.nav-wrapper .nav-menu .nav-item a:hover {
-  color: #0d5c3a !important;
-}
-
-/* OPCIÓN ACTIVA E INDICADOR DE LÍNEA VERDE */
-.nav-wrapper .nav-menu .nav-item.active a {
-  color: #0d5c3a !important;
-  font-weight: 700 !important;
-}
-
-.nav-wrapper .nav-menu .nav-item.active a::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background-color: #0d5c3a;
-  border-radius: 2px;
-}
-
-/* BOTÓN HAMBURGUESA */
-.hamburger {
-  display: none; /* Oculto en PC */
-  flex-direction: column;
-  justify-content: space-between;
-  width: 28px;
-  height: 20px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 1100;
-}
-
-.hamburger .line {
-  width: 100%;
-  height: 3px;
-  background-color: #0d5c3a;
-  border-radius: 2px;
-  transition: all 0.3s ease;
-}
-
-/* Animación a 'X' cuando está activo */
-.hamburger.is-active .line:nth-child(1) {
-  transform: translateY(8.5px) rotate(45deg);
-}
-.hamburger.is-active .line:nth-child(2) {
-  opacity: 0;
-}
-.hamburger.is-active .line:nth-child(3) {
-  transform: translateY(-8.5px) rotate(-45deg);
-}
-
-/* ==========================================
-   3. SECCIÓN PRINCIPAL CON IMAGEN DE FONDO
-   ========================================== */
-.content-bg-wrapper {
-  width: 100%;
-  flex: 1; /* Ocupa el espacio disponible entre el header y el footer */
-  background: linear-gradient(
-      rgba(248, 249, 250, 0.65), 
-      rgba(248, 249, 250, 0.65)
-    ), 
-    url('/Logo5RIFondo.png') no-repeat bottom center / cover;
-  padding-bottom: 2rem;
-}
-
-/* ==========================================
-   4. HERO SECTION
-   ========================================== */
-.hero-section {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  gap: 2.5rem;
-}
-
-.hero-text {
-  flex: 1;
-}
-
-.hero-title {
-  font-size: 2.5rem;
-  line-height: 1.2;
-  margin-bottom: 1rem;
-}
-
-.title-green {
-  color: #0d5c3a;
-  display: block;
-}
-
-.title-gold {
-  color: #c88a2b;
-  display: block;
-}
-
-.hero-description {
-  color: #666;
-  margin-bottom: 1.5rem;
-  font-size: 1rem;
-  max-width: 500px;
-}
-
-.hero-image {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-}
-
-.hero-image img {
-  width: 100%;
-  max-width: 420px;
-  height: auto;
-  border-radius: 8px;
-}
-
-/* ==========================================
-   5. CARDS GRID & CARDS
-   ========================================== */
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1.2rem;
-  padding-top: 2rem;
-  padding-bottom: 3rem;
-}
-
-.cards-grid > * {
-  background-color: #ffffff;
-  padding: 1.5rem 1rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* IMÁGENES DENTRO DE LAS TARJETAS */
-.card-icon-container {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0.8rem;
-}
-
-.card-icon-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-
-/* ==========================================
-   ESTILOS DE LA FLECHA EN LAS CARDS
-   ========================================== */
-.card-arrow {
-  color: #0d5c3a; /* Verde corporativo 5RI */
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1rem;
-  transition: transform 0.2s ease, color 0.2s ease;
-}
-
-.card-arrow .material-symbols-outlined {
-  font-size: 1.1rem; /* Tamaño de la flecha */
-  font-weight: bold;
-}
-
-/* Efecto opcional al pasar el mouse sobre la tarjeta */
-.cards-grid > *:hover .card-arrow {
-  transform: translateX(4px); /* Desplaza ligeramente la flecha a la derecha */
-}
-
-/* Previene la traducción automática en todos los iconos de Google */
+/* Protección global contra traducción automática de iconos */
 .material-symbols-outlined {
   -webkit-font-smoothing: antialiased;
   text-transform: none;
   line-height: 1;
-  /* Atributos para que Google Translate no traduzca el texto interno */
   translate: no;
 }
 
 
-/* ==========================================
-   6. BANNER CTA (AMARILLO)
-   ========================================== */
-.banner-cta {
-  background-color: #e5a93b;
-  border-radius: 20px;
-  padding: 1.2rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  color: #ffffff;
-  margin-bottom: 3rem;
-}
+/* src/index.css */
 
-.banner-left {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
+/* Prevenir traducción automática en Google Material Symbols / Icons */
+.material-symbols-outlined,
+.material-icons {
+  -webkit-font-smoothing: antialiased;
+  text-transform: none !important;
+  line-height: 1;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
 
-.icon-bulb {
-  font-size: 1.5rem;
-}
-
-.banner-title {
-  font-weight: 700;
-  font-size: 1.05rem;
-}
-
-.banner-divider {
-  width: 1px;
-  height: 35px;
-  background-color: rgba(255, 255, 255, 0.4);
-}
-
-.banner-subtitle {
-  font-size: 0.95rem;
-  flex: 1;
-}
-
-/* ==========================================
-   7. FOOTER
-   ========================================== */
-.footer {
-  background-color: #0d5c3a;
-  height: 60px;
-  width: 100%;
-  margin-top: auto;
-}
-
-/* ==========================================
-   8. REGLAS RESPONSIVAS (MÓVIL Y TABLET)
-   ========================================== */
-
-/* Tablets (1024px para abajo) */
-@media (max-width: 1024px) {
-  .cards-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .banner-cta {
-    flex-wrap: wrap;
-  }
-}
-
-/* Celulares (768px para abajo) */
-@media (max-width: 768px) {
-  header.navbar {
-    position: relative;
-  }
-
-  .hamburger {
-    display: flex;
-  }
-
-  /* Menú desplegable flotante */
-  .nav-wrapper {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: #ffffff;
-    flex-direction: column;
-    padding: 1.5rem;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-    display: none;
-    gap: 1rem;
-    z-index: 999;
-  }
-
-  .nav-wrapper.open {
-    display: flex;
-  }
-
-  .nav-menu {
-    flex-direction: column;
-    width: 100%;
-    gap: 1rem;
-  }
-
-  .nav-menu li {
-    text-align: center;
-  }
-
-  .hero-section {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .hero-description {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .cards-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .banner-cta {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .banner-divider {
-    display: none;
-  }
-
-  .btn-primary, .nav-cta {
-    width: 100%;
-  }
+  /* Atributos para bloquear la traducción del navegador */
+  translate: no !important;
+  -webkit-translate: no !important;
 }

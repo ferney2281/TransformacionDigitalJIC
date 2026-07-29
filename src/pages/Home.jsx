@@ -1,72 +1,20 @@
 // src/pages/Home.jsx
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { siteContent } from '../data/contentData';
+import { Navbar } from '../components/layout/Navbar';
+import { Footer } from '../components/layout/Footer';
 import { Card } from '../components/common/Card';
+import './Home.css';
 
 export const Home = () => {
-  const { header, hero, cards, bannerCta } = siteContent;
-  
-  // Estado para controlar la apertura del menú en celulares
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const { hero, cards, bannerCta } = siteContent;
 
   return (
     <div className="main-layout">
-      {/* 1. HEADER / NAVEGACIÓN */}
-      <header className="navbar">
-        <div className="container navbar-content">
-          
-          {/* LOGO */}
-          <div className="logo-container">
-            {header.logoUrl && (
-              <img 
-                src={header.logoUrl} 
-                alt={header.logoText} 
-                className="logo-img" 
-              />
-            )}
-          </div>
+      <Navbar activePage="inicio" />
 
-          {/* BOTÓN HAMBURGUESA (Móvil) */}
-          <button 
-            className={`hamburger ${isMenuOpen ? 'is-active' : ''}`} 
-            onClick={toggleMenu}
-            aria-label="Abrir menú"
-          >
-            <span className="line"></span>
-            <span className="line"></span>
-            <span className="line"></span>
-          </button>
-
-          {/* MENÚ DE NAVEGACIÓN */}
-          <nav className={`nav-wrapper ${isMenuOpen ? 'open' : ''}`}>
-            <ul className="nav-menu">
-              {header.navLinks.map((item) => (
-                <li key={item.id} className={`nav-item ${item.active ? 'active' : ''}`}>
-                  {/* Usamos <Link> para evitar que la página recargue al cambiar de sección */}
-                  <Link 
-                    to={item.id === 'herramientas' || item.id === 'tools' ? '/tools' : '/'} 
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <button className="btn-primary nav-cta">{header.ctaButton}</button>
-          </nav>
-
-        </div>
-      </header>
-
-      {/* ENVOLTORIO PARA LA IMAGEN DE FONDO */}
       <div className="content-bg-wrapper">
-        
-        {/* 2. HERO SECTION */}
+        {/* HERO SECTION */}
         <section className="container hero-section">
           <div className="hero-text">
             <h1 className="hero-title">
@@ -81,7 +29,7 @@ export const Home = () => {
           </div>
         </section>
 
-        {/* 3. SECCIÓN DE CARDS */}
+        {/* CARDS GRID */}
         <section className="container cards-grid">
           {cards.map((card) => (
             <Card 
@@ -94,7 +42,7 @@ export const Home = () => {
           ))}
         </section>
 
-        {/* 4. BANNER CTA */}
+        {/* BANNER CTA */}
         <section className="container">
           <div className="banner-cta">
             <div className="banner-left">
@@ -108,11 +56,9 @@ export const Home = () => {
             <button className="btn-primary">{bannerCta.buttonText}</button>
           </div>
         </section>
-
       </div>
 
-      {/* 5. FOOTER */}
-      <footer className="footer"></footer>
+      <Footer />
     </div>
   );
 };

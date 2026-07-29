@@ -1,94 +1,56 @@
 // src/pages/Tools.jsx
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { siteContent } from '../data/contentData';
+import { Navbar } from '../components/layout/Navbar';
+import { Footer } from '../components/layout/Footer';
 import { ToolCard } from '../components/common/ToolCard';
+import './Tools.css';
 
 export const Tools = () => {
-  const { header, toolsPage } = siteContent;
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  // 1. Extraemos el arreglo de forma segura. 
+  // Busca si existe siteContent.toolsPage.tools, si es un arreglo directo, o si no devuelve un []
+  const toolsData = 
+    siteContent.toolsPage?.tools || 
+    (Array.isArray(siteContent.toolsPage) ? siteContent.toolsPage : []);
 
   return (
     <div className="main-layout">
-      {/* HEADER NAVEGACIÓN */}
-      <header className="navbar">
-        <div className="container navbar-content">
-          <div className="logo-container">
-            {header.logoUrl && (
-              <img src={header.logoUrl} alt={header.logoText} className="logo-img" />
-            )}
-          </div>
+      <Navbar activePage="herramientas" />
 
-          {/* Menú Hamburguesa en móvil */}
-          <button 
-            className={`hamburger ${isMenuOpen ? 'is-active' : ''}`} 
-            onClick={toggleMenu}
-            aria-label="Abrir menú"
-          >
-            <span className="line"></span>
-            <span className="line"></span>
-            <span className="line"></span>
-          </button>
-
-          <nav className={`nav-wrapper ${isMenuOpen ? 'open' : ''}`}>
-            <ul className="nav-menu">
-              {header.navLinks.map((item) => {
-                // Evaluamos si el enlace actual es la página activa (Tools)
-                const isActive = item.id === 'herramientas' || item.id === 'tools';
-                return (
-                  <li key={item.id} className={`nav-item ${isActive ? 'active' : ''}`}>
-                    <Link 
-                      to={isActive ? '/tools' : '/'} 
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-            <button className="btn-primary nav-cta">{header.ctaButton}</button>
-          </nav>
-        </div>
-      </header>
-
-      {/* CONTENIDO PRINCIPAL */}
-      <main className="content-bg-wrapper">
-        
-        {/* HERO DE HERRAMIENTAS */}
+      <div className="content-bg-wrapper">
+        {/* ENCABEZADO DE LA PÁGINA */}
         <section className="container tools-hero-section">
           <div className="tools-hero-header">
             <div className="tools-hero-icon-circle">
-              {toolsPage?.iconUrl ? (
-                <img src={toolsPage.iconUrl} alt="Herramientas" className="tools-hero-icon" />
-              ) : (
-                <span className="material-symbols-outlined">build</span>
-              )}
+              <img src="/TransformacionDigitalJIC/tool.svg" alt="Herramientas 5RI" />
             </div>
-            <div className="tools-hero-text">
-              <h1 className="tools-hero-title">{toolsPage?.title || "Herramientas"}</h1>
-              <p className="tools-hero-subtitle">{toolsPage?.subtitle}</p>
+            <div>
+              <h1 className="tools-hero-title">Herramientas Digitales</h1>
+              <p className="tools-hero-subtitle">
+                Explora los instrumentos para impulsar la transformación en tu organización.
+              </p>
             </div>
           </div>
         </section>
 
-        {/* GRILLA DE TARJETAS */}
+        {/* REJILLA DE TARJETAS DE HERRAMIENTAS */}
         <section className="container tools-grid-section">
           <div className="tools-grid">
-            {toolsPage?.toolsList?.map((tool) => (
-              <ToolCard key={tool.id} tool={tool} />
-            ))}
+            {/* 2. Renderizado seguro comprobando si es un Array con elementos */}
+            {toolsData.length > 0 ? (
+              toolsData.map((tool) => (
+                <ToolCard key={tool.id || tool.title} tool={tool} />
+              ))
+            ) : (
+              <p style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '2rem 0' }}>
+                No hay herramientas disponibles en este momento.
+              </p>
+            )}
           </div>
         </section>
+      </div>
 
-      </main>
-
-      {/* FOOTER */}
-      <footer className="footer"></footer>
+      <Footer />
     </div>
   );
 };

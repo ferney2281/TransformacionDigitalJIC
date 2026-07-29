@@ -65,47 +65,109 @@ export const siteContent = {
     buttonText: "Empiece aquí >"
   },
   toolsPage: {
-    title: "Herramientas",
-    subtitle: "Soluciones prácticas para transformar tu empresa hoy.",
-    iconUrl: "/icon-tools-hero.png", // Nombre sugerido para el icono del título
-    toolsList: [
+    title: "Herramientas Digitales",
+    subtitle: "Explora los instrumentos para impulsar la transformación...",
+    tools: [
       {
-        id: "termometro-digital",
-        badge: "Herramienta 1",
-        title: "Termómetro Digital",
-        subtitle: "Chequeo de 10 minutos",
-        description: "Evalúa rápidamente el nivel de transformación digital de tu empresa y descubre por dónde empezar con recomendaciones personalizadas.",
-        timeText: "Diagnóstico rápido",
-        duration: "10 minutos",
-        buttonText: "Realizar diagnóstico",
-        link: "/herramientas/termometro-digital",
-        iconUrl: "/icon-thermometer.png"
+        id: 1,
+        badgeText: "Herramienta 1",
+        title: "Diagnóstico Digital",
+        subtitle: "Evaluación 5RI",
+        description: "Mide el nivel de madurez digital de tu organización.",
+        duration: "15 - 20 min",
+        iconUrl: "/TransformacionDigitalJIC/thermometer.svg",
+        actionRoute: "/tools/diagnostico"
       },
       {
-        id: "herramienta-2",
-        badge: "Herramienta 2",
-        title: "Termómetro Digital",
-        subtitle: "Chequeo de 10 minutos",
-        description: "Evalúa rápidamente el nivel de transformación digital de tu empresa y descubre por dónde empezar con recomendaciones personalizadas.",
-        timeText: "Diagnóstico rápido",
-        duration: "10 minutos",
-        buttonText: "Realizar diagnóstico",
-        link: "/herramientas/termometro-digital",
-        iconUrl: "/icon-thermometer.png"
+        id: 2,
+        badgeText: "Herramienta 2",
+        title: "Matriz de Capacidades",
+        subtitle: "Planificación",
+        description: "Identifica las brechas tecnológicas en tus procesos.",
+        duration: "30 min",
+        iconUrl: "/icons/matrix.png",
+        actionRoute: "/tools/matriz"
       },
       {
-        id: "herramienta-3",
-        badge: "Herramienta 3",
-        title: "Termómetro Digital",
-        subtitle: "Chequeo de 10 minutos",
-        description: "Evalúa rápidamente el nivel de transformación digital de tu empresa y descubre por dónde empezar con recomendaciones personalizadas.",
-        timeText: "Diagnóstico rápido",
-        duration: "10 minutos",
-        buttonText: "Realizar diagnóstico",
-        link: "/herramientas/termometro-digital",
-        iconUrl: "/icon-thermometer.png"
+        id: 3,
+        badgeText: "Herramienta 2",
+        title: "Matriz de Capacidades",
+        subtitle: "Planificación",
+        description: "Identifica las brechas tecnológicas en tus procesos.",
+        duration: "30 min",
+        iconUrl: "/icons/matrix.png",
+        actionRoute: "/tools/matriz"
       },
-      // Puedes replicar los demás objetos para los 6 ítems
+      {
+        id: 4,
+        badgeText: "Herramienta 2",
+        title: "Matriz de Capacidades",
+        subtitle: "Planificación",
+        description: "Identifica las brechas tecnológicas en tus procesos.",
+        duration: "30 min",
+        iconUrl: "/icons/matrix.png",
+        actionRoute: "/tools/matriz"
+      },
+      {
+        id: 5,
+        badgeText: "Herramienta 2",
+        title: "Matriz de Capacidades",
+        subtitle: "Planificación",
+        description: "Identifica las brechas tecnológicas en tus procesos.",
+        duration: "30 min",
+        iconUrl: "/icons/matrix.png",
+        actionRoute: "/tools/matriz"
+      },
+      {
+        id: 6,
+        badgeText: "Herramienta 2",
+        title: "Matriz de Capacidades",
+        subtitle: "Planificación",
+        description: "Identifica las brechas tecnológicas en tus procesos.",
+        duration: "30 min",
+        iconUrl: "/icons/matrix.png",
+        actionRoute: "/tools/matriz"
+      },
+      {
+        id: 7,
+        badgeText: "Herramienta 2",
+        title: "Matriz de Capacidades",
+        subtitle: "Planificación",
+        description: "Identifica las brechas tecnológicas en tus procesos.",
+        duration: "30 min",
+        iconUrl: "/icons/matrix.png",
+        actionRoute: "/tools/matriz"
+      },
+      {
+        id: 8,
+        badgeText: "Herramienta 2",
+        title: "Matriz de Capacidades",
+        subtitle: "Planificación",
+        description: "Identifica las brechas tecnológicas en tus procesos.",
+        duration: "30 min",
+        iconUrl: "/icons/matrix.png",
+        actionRoute: "/tools/matriz"
+      },
+      {
+        id: 9,
+        badgeText: "Herramienta 2",
+        title: "Matriz de Capacidades",
+        subtitle: "Planificación",
+        description: "Identifica las brechas tecnológicas en tus procesos.",
+        duration: "30 min",
+        iconUrl: "/icons/matrix.png",
+        actionRoute: "/tools/matriz"
+      },
+      {
+        id: 10,
+        badgeText: "Herramienta 2",
+        title: "Matriz de Capacidades",
+        subtitle: "Planificación",
+        description: "Identifica las brechas tecnológicas en tus procesos.",
+        duration: "30 min",
+        iconUrl: "/icons/matrix.png",
+        actionRoute: "/tools/matriz"
+      }
     ]
   }
 };
