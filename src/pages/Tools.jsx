@@ -1,20 +1,18 @@
 // src/pages/Tools.jsx
 import React from 'react';
-import { siteContent } from '../data/contentData';
+import { toolsData } from '../data/toolsData';
 import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
 import { ToolCard } from '../components/common/ToolCard';
 import './Tools.css';
 
 export const Tools = () => {
-  // 1. Extraemos el arreglo de forma segura. 
-  // Busca si existe siteContent.toolsPage.tools, si es un arreglo directo, o si no devuelve un []
-  const toolsData = 
-    siteContent.toolsPage?.tools || 
-    (Array.isArray(siteContent.toolsPage) ? siteContent.toolsPage : []);
+  // Extraemos el arreglo de herramientas directamente desde el archivo modularizado
+  const toolsList = toolsData.tools || [];
 
   return (
     <div className="main-layout">
+      {/* Navegación indicando la vista activa */}
       <Navbar activePage="herramientas" />
 
       <div className="content-bg-wrapper">
@@ -22,12 +20,12 @@ export const Tools = () => {
         <section className="container tools-hero-section">
           <div className="tools-hero-header">
             <div className="tools-hero-icon-circle">
-              <img src="/TransformacionDigitalJIC/tool.svg" alt="Herramientas 5RI" />
+              <img src={toolsData.icon} alt="Herramientas 5RI" />
             </div>
             <div>
-              <h1 className="tools-hero-title">Herramientas Digitales</h1>
+              <h1 className="tools-hero-title">{toolsData.title || 'Herramientas Digitales'}</h1>
               <p className="tools-hero-subtitle">
-                Explora los instrumentos para impulsar la transformación en tu organización.
+                {toolsData.subtitle || 'Explora los instrumentos para impulsar la transformación en tu organización.'}
               </p>
             </div>
           </div>
@@ -36,9 +34,8 @@ export const Tools = () => {
         {/* REJILLA DE TARJETAS DE HERRAMIENTAS */}
         <section className="container tools-grid-section">
           <div className="tools-grid">
-            {/* 2. Renderizado seguro comprobando si es un Array con elementos */}
-            {toolsData.length > 0 ? (
-              toolsData.map((tool) => (
+            {toolsList.length > 0 ? (
+              toolsList.map((tool) => (
                 <ToolCard key={tool.id || tool.title} tool={tool} />
               ))
             ) : (

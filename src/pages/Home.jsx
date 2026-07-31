@@ -1,6 +1,7 @@
 // src/pages/Home.jsx
 import React from 'react';
 import { siteContent } from '../data/contentData';
+
 import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
 import { Card } from '../components/common/Card';

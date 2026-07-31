@@ -1,11 +1,11 @@
 // src/components/layout/Navbar.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { siteContent } from '../../data/contentData';
+import { homeData } from '../../data/homeData'; // 1. Usar el archivo modular correcto
 import './Navbar.css';
 
 export const Navbar = ({ activePage = 'inicio' }) => {
-  const { header } = siteContent;
+  const { header } = homeData;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -33,11 +33,11 @@ export const Navbar = ({ activePage = 'inicio' }) => {
           <ul className="nav-menu">
             {header.navLinks.map((item) => {
               const isActive = activePage === item.id;
-              const route = item.id === 'tools' || item.id === 'herramientas' ? '/tools' : '/';
 
               return (
                 <li key={item.id} className={`nav-item ${isActive ? 'active' : ''}`}>
-                  <Link to={route} onClick={() => setIsMenuOpen(false)}>
+                  {/* 2. Usamos directamente item.link definido en los datos */}
+                  <Link to={item.link} onClick={() => setIsMenuOpen(false)}>
                     {item.label}
                   </Link>
                 </li>

@@ -1,0 +1,68 @@
+/* src/pages/Trends.css */
+.trends-hero-section {
+  padding-top: 3rem;
+  padding-bottom: 2.5rem;
+}
+
+.trends-hero-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.trends-hero-icon-circle {
+  width: 90px;
+  height: 90px;
+  background-color: #eaf4ed;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.trends-hero-icon-circle img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.trends-hero-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--primary-green);
+  margin: 0;
+}
+
+.trends-hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  margin-top: 0.25rem;
+}
+
+.trends-grid-section {
+  padding-bottom: 5rem;
+}
+
+.trends-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 992px) {
+  .trends-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .trends-hero-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .trends-grid {
+    grid-template-columns: 1fr;
+  }
+}

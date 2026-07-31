@@ -4,12 +4,17 @@ import { Link } from 'react-router-dom';
 import './ToolCard.css';
 
 export const ToolCard = ({ tool }) => {
+  // Determina la URL de destino (prioriza pdfUrl, luego actionRoute o '#')
+  const targetUrl = tool.pdfUrl || tool.actionRoute || '#';
+  
+  // Verifica si es un recurso externo o un archivo (PDF, HTTP)
+  const isExternalOrFile = tool.pdfUrl || targetUrl.startsWith('http') || targetUrl.endsWith('.pdf');
+
   return (
     <article className="tool-card">
       <div className="tool-card-top">
         <span className="tool-badge">{tool.badgeText || 'Herramienta'}</span>
         <button className="tool-bookmark-btn" aria-label="Guardar herramienta">
-          {/* Agregamos translate="no" y notranslate */}
           <span className="material-symbols-outlined notranslate" translate="no">
             bookmark
           </span>
@@ -28,7 +33,6 @@ export const ToolCard = ({ tool }) => {
 
       <div className="tool-card-footer">
         <div className="tool-time-box">
-          {/* Agregamos translate="no" y notranslate */}
           <span className="material-symbols-outlined tool-clock-icon notranslate" translate="no">
             schedule
           </span>
@@ -38,13 +42,27 @@ export const ToolCard = ({ tool }) => {
           </div>
         </div>
 
-        <Link to={tool.actionRoute || '#'} className="btn-tool-action">
-          <span>{tool.buttonText || 'Comenzar'}</span>
-          {/* Agregamos translate="no" y notranslate */}
-          <span className="material-symbols-outlined notranslate" translate="no">
-            arrow_forward
-          </span>
-        </Link>
+        {/* Si es un PDF o URL externa abre en nueva pestaña con <a>, de lo contrario usa <Link> */}
+        {isExternalOrFile ? (
+          <a 
+            href={targetUrl} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="btn-tool-action"
+          >
+            <span>{tool.buttonText || 'Comenzar'}</span>
+            <span className="material-symbols-outlined notranslate" translate="no">
+              arrow_forward
+            </span>
+          </a>
+        ) : (
+          <Link to={targetUrl} className="btn-tool-action">
+            <span>{tool.buttonText || 'Comenzar'}</span>
+            <span className="material-symbols-outlined notranslate" translate="no">
+              arrow_forward
+            </span>
+          </Link>
+        )}
       </div>
     </article>
   );
