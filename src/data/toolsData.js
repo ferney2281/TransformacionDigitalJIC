@@ -15,7 +15,7 @@ export const toolsData = {
       duration: "10 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/thermometer.svg",
       actionRoute: "/tools/diagnostico",
-      pdfUrl: "/TransformacionDigitalJIC/docs/DiagnosticoMadurez5RI.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H01_Termometro_digital.pdf"
     },
     {
       id: 2,
@@ -26,7 +26,7 @@ export const toolsData = {
       duration: "20 - 30 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/analytics.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/TransformacionDigitalJIC/docs/DiagnosticoMadurez5RI.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H02_Autodiagnostico_madurez.pdf"
     },
     {
       id: 3,
@@ -37,7 +37,7 @@ export const toolsData = {
       duration: "10 - 15 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/balance.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/docs/termometro-industria-5.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H03_Tres_pilares.pdf"
     },
     {
       id: 4,
@@ -48,7 +48,7 @@ export const toolsData = {
       duration: "25 - 35 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/business_center.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/docs/modelo-negocio-digital.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H04_Lienzo_modelo_negocio.pdf"
     },
     {
       id: 5,
@@ -59,7 +59,7 @@ export const toolsData = {
       duration: "15 - 20 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/flag.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/docs/por-donde-empezar.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H05_Por_donde_empiezo.pdf"
     },
     {
       id: 6,
@@ -70,7 +70,7 @@ export const toolsData = {
       duration: "20 - 30 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/route.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/docs/hoja-de-ruta-digital.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H06_Hoja_de_ruta.pdf"
     },
     {
       id: 7,
@@ -81,7 +81,7 @@ export const toolsData = {
       duration: "15 - 20 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/shield.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/docs/ciberseguridad-esencial.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H07_Ciberseguridad.pdf"
     },
     {
       id: 8,
@@ -92,7 +92,7 @@ export const toolsData = {
       duration: "10 - 15 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/lock.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/docs/proteccion-de-datos.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H08_Datos_personales.pdf"
     },
     {
       id: 9,
@@ -103,7 +103,7 @@ export const toolsData = {
       duration: "15 - 20 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/psychology.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/docs/ia-responsable.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H09_IA_responsable.pdf"
     },
     {
       id: 10,
@@ -114,7 +114,7 @@ export const toolsData = {
       duration: "20 - 30 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/eco.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/docs/reporte-sostenibilidad.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H10_Sostenibilidad.pdf"
     },
     {
       id: 11,
@@ -125,7 +125,7 @@ export const toolsData = {
       duration: "25 - 35 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/change_circle.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/docs/plan-de-cambio.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H11_Plan_cambio_piloto.pdf"
     },
     {
       id: 12,
@@ -136,7 +136,7 @@ export const toolsData = {
       duration: "15 - 20 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/monitoring.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/docs/tablero-indicadores.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H12_Tablero_indicadores.pdf"
     },
     {
       id: 13,
@@ -147,7 +147,7 @@ export const toolsData = {
       duration: "25 - 35 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/groups.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/docs/marketing-digital-crm.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H13_Marketing_CRM.pdf"
     },
     {
       id: 14,
@@ -158,7 +158,7 @@ export const toolsData = {
       duration: "20 - 30 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/settings.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/docs/procesos-automatizacion.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H14_Procesos_automatizacion.pdf"
     },
     {
       id: 15,
@@ -169,7 +169,7 @@ export const toolsData = {
       duration: "20 - 25 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/database.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/docs/gestion-de-datos.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H15_Datos.pdf"
     },
     {
       id: 16,
@@ -180,7 +180,7 @@ export const toolsData = {
       duration: "10 - 15 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/favorite.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/docs/bienestar-equipo.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H16_Bienestar.pdf"
     },
     {
       id: 17,
@@ -191,7 +191,7 @@ export const toolsData = {
       duration: "10 - 15 min",
       iconUrl: "/TransformacionDigitalJIC/toolsIcons/handshake.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/docs/apoyo-financiacion.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H17_Apoyo_financiacion.pdf"
     },
     {
       id: 18,
@@ -200,9 +200,9 @@ export const toolsData = {
       subtitle: "Portafolio de Innovación Empresarial",
       description: "Diseña un portafolio equilibrado de iniciativas de innovación, priorizando oportunidades de corto, mediano y largo plazo para impulsar el crecimiento sostenible de tu empresa.",
       duration: "25 - 35 min",
-      iconUrl: "/TransformacionDigitalJIC/toolsIcons/lightbulb.svg",
+      iconUrl: "/TransformacionDigitalJIC/toolsIcons/innovation.svg",
       actionRoute: "/tools/matriz",
-      pdfUrl: "/docs/estrategias-innovacion.pdf"
+      pdfUrl: "/TransformacionDigitalJIC/docs/H18_Matriz_innovacion.pdf"
     }
   ]
 };
