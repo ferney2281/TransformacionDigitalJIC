@@ -4,6 +4,11 @@ import { Link } from 'react-router-dom';
 import './TrendCard.css';
 
 export const TrendCard = ({ trend }) => {
+  // Priorizamos actionRoute que viene en el JSON, o construimos con slug/id
+  const targetRoute = trend.actionRoute 
+    ? trend.actionRoute 
+    : (trend.slug ? `/tendencias/${trend.slug}` : `/tendencias/${trend.id}`);
+
   return (
     <article className="trend-card">
       <div className="trend-card-header">
@@ -38,7 +43,7 @@ export const TrendCard = ({ trend }) => {
           </div>
         </div>
 
-        <Link to={trend.actionRoute || '#'} className="btn-trend-action">
+        <Link to={targetRoute} className="btn-trend-action">
           <span>{trend.buttonText || 'Explorar tendencia'}</span>
           <span className="material-symbols-outlined notranslate" translate="no">
             arrow_forward

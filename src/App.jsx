@@ -3,7 +3,8 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Tools } from './pages/Tools';
-import { Trends } from './pages/Trends'; // 1. Importamos la vista de Tendencias
+import { Trends } from './pages/Trends'; 
+import { TrendDetail } from './pages/TrendDetail';
 import { Glossary } from './pages/Glossary';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
 
       {/* 2. Ruta para la página de Tendencias */}
       <Route path="/trends" element={<Trends />} />
+      <Route path="/trends/:slug" element={<TrendDetail />} />
       <Route path="/glossary" element={<Glossary />} />
     </Routes>
   );

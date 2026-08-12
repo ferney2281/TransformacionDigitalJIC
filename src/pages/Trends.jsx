@@ -13,7 +13,7 @@ export const Trends = () => {
   return (
     <div className="main-layout">
       {/* Navegación indicando la vista activa */}
-      <Navbar activePage="tendencias" />
+      <Navbar activePage="trends" />
 
       <div className="content-bg-wrapper">
         {/* ENCABEZADO DE LA PÁGINA */}
@@ -36,7 +36,7 @@ export const Trends = () => {
           <div className="trends-grid">
             {trendsList.length > 0 ? (
               trendsList.map((trend) => (
-                <TrendCard key={trend.id || trend.title} trend={trend} />
+                <TrendCard key={trend.id || trend.slug || trend.title} trend={trend} />
               ))
             ) : (
               <p style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '2rem 0' }}>

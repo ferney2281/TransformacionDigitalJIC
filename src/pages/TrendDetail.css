@@ -1,0 +1,479 @@
+/* Layout General */
+.trend-detail-container {
+  padding-top: 1.5rem;
+  padding-bottom: 3rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #718096;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.breadcrumbs a {
+  color: #4a5568;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumbs a:hover {
+  color: #1a4d2e;
+}
+
+.breadcrumbs .current {
+  color: #1a4d2e;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+#regla
+{
+    border: solid 1px #1a4d2e;
+    margin-bottom: 15px;
+}
+
+/* Grid del Hero */
+.trend-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 2.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.trend-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.badge-axis {
+  background-color: #d97706;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+
+.axis-name {
+  color: #d97706;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.trend-number {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1a4d2e;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+
+.trend-title-main {
+  font-size: 1.85rem;
+  color: #1a4d2e;
+  line-height: 1.25;
+  margin: 0 0 1rem 0;
+}
+
+.trend-short-desc {
+  color: #4a5568;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+/* Botones de Acción Hero */
+.trend-action-bar {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #1a4d2e;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.btn-summary:hover {
+  opacity: 0.9;
+}
+
+.btn-save {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  padding: 0.6rem 1.25rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.btn-save:hover {
+  background-color: #f1f5f9;
+}
+
+.trend-hero-graphic img {
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  object-fit: contain;
+}
+
+/* Menú de Pestañas (Tabs) */
+.trend-tabs-nav {
+  display: flex;
+  border-bottom: 2px solid #e2e8f0;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  overflow-x: auto;
+  position: sticky;
+  top: 70px; /* Ajustado para dar espacio a una Navbar fija superior */
+  background-color: #ffffff;
+  z-index: 10;
+  padding-top: 0.5rem;
+  scrollbar-width: thin; /* Para Firefox */
+}
+
+.tab-item {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 0.75rem 0.5rem;
+  font-size: 0.95rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.tab-item:hover {
+  color: #1a4d2e;
+}
+
+.tab-item.active {
+  color: #1a4d2e;
+  border-bottom-color: #1a4d2e;
+  font-weight: 600;
+}
+
+/* Secciones de Contenido */
+.trend-content-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+.detail-section {
+  display: flex;
+  flex-direction: column;
+  scroll-margin-top: 130px; /* Margen superior amplio para compensar Header + Tabs Sticky */
+}
+
+.block-heading {
+  font-size: 1.25rem;
+  color: #1a4d2e;
+  margin-bottom: 1.25rem;
+}
+
+.section-icon-circle {
+  width: 56px;
+  height: 56px;
+  background-color: #eaf5eb;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a4d2e;
+  flex-shrink: 0;
+}
+
+.definition-box,
+.relation-box {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1.25rem;
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+.section-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: #1a4d2e;
+}
+
+.section-text {
+  margin: 0;
+  color: #334155;
+  line-height: 1.6;
+}
+
+/* Grid de Drivers */
+.drivers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.driver-card {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.driver-icon-circle {
+  width: 48px;
+  height: 48px;
+  background: #eaf5eb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a4d2e;
+  margin-bottom: 1rem;
+}
+
+.driver-title {
+  font-size: 0.95rem;
+  color: #1a4d2e;
+  margin: 0 0 0.5rem 0;
+}
+
+.driver-desc {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Implicaciones & Cita */
+.implication-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 1.5rem;
+}
+
+.implication-card {
+  display: flex;
+  gap: 1.25rem;
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+.quote-card {
+  background: #eaf5eb;
+  padding: 1.5rem;
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.quote-mark {
+  font-size: 2rem;
+  line-height: 1;
+  color: #1a4d2e;
+  font-weight: bold;
+}
+
+.quote-text {
+  color: #1a4d2e;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.4;
+  z-index: 1;
+}
+
+.quote-watermark {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.5rem;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: rgba(26, 77, 46, 0.1);
+}
+
+/* Recursos */
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.resource-card {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.resource-type {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.resource-title {
+  font-size: 0.9rem;
+  color: #1a4d2e;
+  margin: 0.5rem 0 1rem 0;
+}
+
+.format-badge.pdf {
+  background: #fee2e2;
+  color: #dc2626;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.resource-link {
+  color: #1a4d2e;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.video-time {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+/* Footer de Navegación */
+.trend-navigation-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 2rem;
+  gap: 1rem;
+}
+
+.nav-trend-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 220px;
+}
+
+.nav-trend-btn:hover {
+  border-color: #1a4d2e;
+  background-color: #f8fafc;
+}
+
+.nav-text-container {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.nav-next .nav-text-container {
+  text-align: right;
+}
+
+.nav-sub {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.nav-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1a4d2e;
+}
+
+.center-btn {
+  justify-content: center;
+}
+
+.nav-placeholder {
+  min-width: 220px;
+}
+
+/* ==========================================
+   MEDIA QUERIES (Soporte Responsive)
+   ========================================== */
+@media (max-width: 992px) {
+  .trend-hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .implication-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .definition-box,
+  .relation-box,
+  .implication-card {
+    flex-direction: column;
+  }
+
+  .trend-navigation-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nav-trend-btn,
+  .nav-placeholder {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .nav-placeholder {
+    display: none;
+  }
+}
