@@ -1,0 +1,419 @@
+/* Layout Principal sin imágenes de fondo */
+.competencies-page-wrapper {
+  background-color: #f8fafc;
+  background-image: none !important;
+  width: 100%;
+  flex: 1;
+}
+
+.competencies-container {
+  padding-top: 1.5rem;
+  padding-bottom: 4rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 0. HERO TITLE HEADER */
+.competencies-hero-section {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.competencies-hero-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.competencies-hero-icon-circle {
+  width: 90px;
+  height: 90px;
+  background-color: #eaf4ed;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.competencies-hero-icon-circle img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.competencies-hero-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.competencies-hero-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #064e3b;
+  margin: 0 0 0.35rem 0;
+  line-height: 1.2;
+}
+
+.competencies-hero-subtitle {
+  font-size: 1.05rem;
+  color: #334155;
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+/* 1. NAVEGACIÓN PRINCIPAL (TABS SUPERIORES) */
+.main-tabs-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+
+.main-tab-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.main-tab-item:hover {
+  color: #1a4d2e;
+}
+
+.main-tab-item.active {
+  color: #1a4d2e;
+  background-color: #eaf5eb;
+  border-bottom-color: #1a4d2e;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.main-tab-item .material-symbols-outlined {
+  font-size: 1.2rem;
+}
+
+/* 2. CARD CONTENEDORA PRINCIPAL DE CATÁLOGO */
+.catalog-outer-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.catalog-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.catalog-header-icon {
+  width: 56px;
+  height: 56px;
+  background-color: #eaf5eb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a4d2e;
+  flex-shrink: 0;
+}
+
+.catalog-header-icon .material-symbols-outlined {
+  font-size: 2rem;
+}
+
+.catalog-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #1a4d2e;
+  margin: 0 0 0.25rem 0;
+}
+
+.catalog-subtitle {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* 3. SUB-PESTAÑAS */
+.sub-tabs-nav {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+
+.sub-tab-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 20px;
+  border: 1px solid #eaf5eb;
+  background-color: #eaf5eb;
+  color: #1a4d2e;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sub-tab-item.active {
+  background-color: #044e29;
+  color: #ffffff;
+  border-color: #044e29;
+}
+
+.sub-tab-item .material-symbols-outlined {
+  font-size: 1.1rem;
+}
+
+/* 4. TARJETA DETALLE DE CATEGORÍA INTERNA */
+.category-detail-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 2rem;
+  background-color: #ffffff;
+}
+
+.category-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.category-icon-circle {
+  width: 60px;
+  height: 60px;
+  background-color: #eaf5eb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a4d2e;
+  flex-shrink: 0;
+}
+
+.category-icon-circle .material-symbols-outlined {
+  font-size: 2.2rem;
+}
+
+.category-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1a4d2e;
+  margin: 0 0 0.35rem 0;
+}
+
+.category-desc {
+  font-size: 0.92rem;
+  color: #475569;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* 5. GRID DE BLOQUES Y TARJETAS DE COMPETENCIA */
+.competency-blocks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 1.5rem;
+}
+
+.competency-block-card {
+  background-color: #f7faf7;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.block-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.block-icon {
+  color: #1a4d2e;
+  font-size: 1.3rem;
+}
+
+.block-card-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #1a4d2e;
+  margin: 0;
+}
+
+.block-code {
+  color: #1a4d2e;
+}
+
+/* 6. LISTA DE ELEMENTOS DENTRO DEL BLOQUE */
+.block-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.competency-item-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  background-color: #ffffff;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #edf2f7;
+}
+
+.item-chevron {
+  color: #1a4d2e;
+  font-size: 1.1rem;
+  margin-top: 0.1rem;
+}
+
+.item-info {
+  flex: 1;
+}
+
+.item-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.25rem 0;
+}
+
+.item-desc {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.item-badge-container {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: 0.5rem;
+}
+
+/* BADGES DE NIVELES */
+.badge-level {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 12px;
+}
+
+.badge-level.limited {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.badge-level.transition {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.badge-level.advanced {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+/* ACENTO DE SOSTENIBILIDAD CON AMARILLO/VERDE 5RI */
+.theme-sostenibilidad .badge-level.advanced {
+  background-color: #fef08a;
+  color: #854d0e;
+}
+
+.item-arrow-link {
+  color: #1a4d2e;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+/* ENLACE CALLOUT DE GESTIÓN */
+.category-callout-link {
+  margin-top: 1.5rem;
+  padding: 0.85rem 1.25rem;
+  background-color: #f0fdf4;
+  border: 1px dashed #bbf7d0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #166534;
+  font-size: 0.88rem;
+}
+
+.category-callout-link .material-symbols-outlined {
+  color: #15803d;
+}
+
+.btn-text-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #166534;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.btn-text-link:hover {
+  color: #044e29;
+}
+
+.tab-placeholder-card {
+  background: #ffffff;
+  padding: 3rem;
+  text-align: center;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .competency-blocks-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .competency-item-row {
+    flex-direction: column;
+  }
+  
+  .item-badge-container {
+    align-self: flex-end;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .competencies-hero-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .competencies-hero-title {
+    font-size: 1.75rem;
+  }
+}

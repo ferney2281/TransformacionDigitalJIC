@@ -1,0 +1,167 @@
+.development-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.development-card {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-sizing: border-box;
+}
+
+/* HEADER BLOCK */
+.development-header-block {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background-color: #f0fdf4;
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+.development-header-icon {
+  background-color: #ffffff;
+  color: #166534;
+  padding: 0.85rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.development-header-icon span {
+  font-size: 2.25rem;
+}
+
+.development-header-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #14532d;
+  margin: 0 0 0.35rem 0;
+}
+
+.development-header-desc {
+  font-size: 1rem;
+  color: #15803d;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* SECTION COMMON BLOCKS */
+.development-section-block {
+  background-color: #f0fdf4;
+  padding: 1.5rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.development-section-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #14532d;
+}
+
+.development-section-title-wrap .section-icon {
+  font-size: 1.5rem;
+  color: #16a34a;
+}
+
+.development-section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* STRATEGIES LIST */
+.development-strategies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.development-strategy-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background-color: #ffffff;
+  border: 1px solid #dcfce7;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+}
+
+.strategy-icon-circle {
+  color: #166534;
+  background-color: #f0fdf4;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.strategy-icon-circle span {
+  font-size: 1.35rem;
+}
+
+.strategy-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.strategy-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #14532d;
+  margin: 0;
+}
+
+.strategy-desc {
+  font-size: 0.95rem;
+  color: #374151;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* APPROACH BLOCK */
+.approach-block {
+  gap: 0.75rem;
+}
+
+.development-approach-desc {
+  font-size: 0.95rem;
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 640px) {
+  .development-card {
+    padding: 1rem;
+  }
+
+  .development-header-block {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .development-strategy-item {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

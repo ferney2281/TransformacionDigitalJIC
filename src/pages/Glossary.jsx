@@ -53,7 +53,7 @@ export const Glossary = () => {
               <h1 className="glossary-title">{glossaryData.title}</h1>
               <p className="glossary-subtitle">{glossaryData.subtitle}</p>
             </div>
-          </div>
+      </div>
 
           {/* BUSCADOR */}
           <div className="search-bar-container">

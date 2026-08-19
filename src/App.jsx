@@ -5,7 +5,10 @@ import { Home } from './pages/Home';
 import { Tools } from './pages/Tools';
 import { Trends } from './pages/Trends'; 
 import { TrendDetail } from './pages/TrendDetail';
+import { Competencies } from './pages/Competencies';
+import { AboutUs } from './pages/AboutUs';
 import { Glossary } from './pages/Glossary';
+
 
 function App() {
   return (
@@ -19,6 +22,8 @@ function App() {
       {/* 2. Ruta para la página de Tendencias */}
       <Route path="/trends" element={<Trends />} />
       <Route path="/trends/:slug" element={<TrendDetail />} />
+      <Route path="/competencies" element={<Competencies />} />
+      <Route path="/about-us" element={<AboutUs />} />
       <Route path="/glossary" element={<Glossary />} />
     </Routes>
   );

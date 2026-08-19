@@ -13,8 +13,8 @@ export const homeData = {
       { id: "inicio", label: "Inicio", link: "/", active: true },
       { id: "herramientas", label: "Herramientas", link: "/tools" },
       { id: "tendencias", label: "Tendencias", link: "/trends" },
-      { id: "competencias", label: "Competencias", link: "#competencias" },
-      { id: "nosotros", label: "Sobre nosotros", link: "#nosotros" },
+      { id: "competencias", label: "Competencias", link: "/competencies" },
+      { id: "nosotros", label: "Sobre nosotros", link: "/about-us" },
       { id: "glosario", label: "Glosario", link: "/glossary" },
     ],
     ctaButton: "Empiece aquí >"
