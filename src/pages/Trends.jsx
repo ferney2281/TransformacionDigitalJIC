@@ -13,7 +13,7 @@ export const Trends = () => {
   return (
     <div className="main-layout">
       {/* Navegación indicando la vista activa */}
-      <Navbar activePage="trends" />
+      <Navbar activePage="tendencias" />
 
       <div className="content-bg-wrapper">
         {/* ENCABEZADO DE LA PÁGINA */}

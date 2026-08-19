@@ -9,7 +9,7 @@ export const AboutUs = () => {
 
   return (
     <div className="main-layout">
-      <Navbar activePage="about-us" />
+      <Navbar activePage="nosotros" />
 
       <main className="about-us-page-wrapper">
         <div className="container about-us-container">

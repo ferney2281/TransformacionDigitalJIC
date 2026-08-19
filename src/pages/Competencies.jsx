@@ -23,7 +23,7 @@ export const Competencies = () => {
 
   return (
     <div className="main-layout">
-      <Navbar activePage="competencies" />
+      <Navbar activePage="competencias" />
 
       <main className="competencies-page-wrapper">
         <div className="container competencies-container">
@@ -147,33 +147,12 @@ export const Competencies = () => {
             </div>
           )}
 
-          {/* VISTA DE NIVELES DE DOMINIO */}
+          {/* VISTAS RESTANTES */}
           {activeMainTab === 'niveles' && <NivelesDominio />}
-
-          {/* VISTA DE GOBERNANZA */}
           {activeMainTab === 'gobernanza' && <Gobernanza />}
-
-          {/* VISTA DE DESARROLLO */}
           {activeMainTab === 'desarrollo' && <Development />}
-
-          {/* VISTA DE RUTA */}
           {activeMainTab === 'hoja-ruta' && <Roadmap />}
-
-          {/* VISTA DE CURSOS */}
           {activeMainTab === 'cursos' && <OnlineCourses />}
-
-          {/* MENSAJE TEMPORAL PARA OTRAS PESTAÑAS */}
-          {activeMainTab !== 'catalogo' && 
-           activeMainTab !== 'niveles' && 
-           activeMainTab !== 'gobernanza' && 
-           activeMainTab !== 'desarrollo' &&
-           activeMainTab !== 'hoja-ruta' &&
-           activeMainTab !== 'cursos' && (
-            <div className="tab-placeholder-card">
-              <h3>Sección: {mainTabsData.find(t => t.id === activeMainTab)?.label}</h3>
-              <p>Contenido en desarrollo...</p>
-            </div>
-          )}
 
         </div>
       </main>

@@ -1,7 +1,7 @@
 // src/components/layout/Navbar.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { homeData } from '../../data/homeData'; // 1. Usar el archivo modular correcto
+import { homeData } from '../../data/homeData';
 import './Navbar.css';
 
 export const Navbar = ({ activePage = 'inicio' }) => {
@@ -36,7 +36,6 @@ export const Navbar = ({ activePage = 'inicio' }) => {
 
               return (
                 <li key={item.id} className={`nav-item ${isActive ? 'active' : ''}`}>
-                  {/* 2. Usamos directamente item.link definido en los datos */}
                   <Link to={item.link} onClick={() => setIsMenuOpen(false)}>
                     {item.label}
                   </Link>

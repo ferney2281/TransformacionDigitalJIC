@@ -93,12 +93,11 @@
   color: #1a4d2e;
 }
 
+/* CAMBIO APLICADO: Solo se activa el borde inferior y el color del texto */
 .main-tab-item.active {
   color: #1a4d2e;
-  background-color: #eaf5eb;
-  border-bottom-color: #1a4d2e;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  border-bottom: 3px solid #1a4d2e;
+  font-weight: 700;
 }
 
 .main-tab-item .material-symbols-outlined {
@@ -378,15 +377,6 @@
 
 .btn-text-link:hover {
   color: #044e29;
-}
-
-.tab-placeholder-card {
-  background: #ffffff;
-  padding: 3rem;
-  text-align: center;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
-  color: #64748b;
 }
 
 /* Responsive */
