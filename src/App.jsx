@@ -8,6 +8,7 @@ import { TrendDetail } from './pages/TrendDetail';
 import { Competencies } from './pages/Competencies';
 import { AboutUs } from './pages/AboutUs';
 import { Glossary } from './pages/Glossary';
+import { Questionnaire } from './pages/Questionnaire';
 
 
 function App() {
@@ -25,6 +26,8 @@ function App() {
       <Route path="/competencies" element={<Competencies />} />
       <Route path="/about-us" element={<AboutUs />} />
       <Route path="/glossary" element={<Glossary />} />
+      <Route path="/questionnaire" element={<Questionnaire />} />
+      
     </Routes>
   );
 }

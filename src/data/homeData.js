@@ -17,7 +17,8 @@ export const homeData = {
       { id: "nosotros", label: "Sobre nosotros", link: "/about-us" },
       { id: "glosario", label: "Glosario", link: "/glossary" },
     ],
-    ctaButton: "Empiece aquí >"
+    ctaButton: "Empiece aquí >",
+    ctaLink: '/questionnaire'
   },
   hero: {
     titlePart1: "Impulsa tu futuro.",

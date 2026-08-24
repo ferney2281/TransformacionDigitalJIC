@@ -43,7 +43,9 @@ export const Navbar = ({ activePage = 'inicio' }) => {
               );
             })}
           </ul>
-          <button className="btn-primary nav-cta">{header.ctaButton}</button>
+          <Link to={header.ctaLink || '/cuestionario'} className="btn-primary nav-cta">
+            {header.ctaButton}
+          </Link>
         </nav>
       </div>
     </header>
