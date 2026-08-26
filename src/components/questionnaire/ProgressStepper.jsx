@@ -4,18 +4,21 @@ import { questionnaireSteps } from '../../data/questionnaireData';
 
 export const ProgressStepper = () => {
   const { questionnaireState, setStep } = useQuestionnaire();
-  const { currentStep, step1Answers, step2Answers } = questionnaireState;
+  const { currentStep, step1Answers, step2Answers, miMeta, step4Answers } = questionnaireState;
 
-  // Verificación de avance para determinar qué pasos están desbloqueados
-  const isStep1Complete = Object.keys(step1Answers).length > 0;
-  const isStep2Complete = Object.keys(step2Answers).length > 0;
+  // Verificación de avance para determinar qué pasos están completados
+  const isStep1Complete = Object.keys(step1Answers || {}).length > 0;
+  const isStep2Complete = Object.keys(step2Answers || {}).length > 0;
+  const isStep3Complete = miMeta !== "" && miMeta !== undefined;
+  const isStep4Complete = Object.keys(step4Answers || {}).length > 0;
 
   // Define si un paso se puede clicar según el progreso del usuario
   const isStepUnlocked = (stepId) => {
     if (stepId === 1) return true;
     if (stepId === 2) return isStep1Complete;
     if (stepId === 3) return isStep1Complete && isStep2Complete;
-    if (stepId === 4) return isStep1Complete && isStep2Complete; // Desbloqueado al finalizar el flujo
+    if (stepId === 4) return isStep1Complete && isStep2Complete && isStep3Complete;
+    if (stepId === 5) return isStep1Complete && isStep2Complete && isStep3Complete && isStep4Complete;
     return false;
   };
 
@@ -47,7 +50,7 @@ export const ProgressStepper = () => {
                 type="button" 
                 className="step-circle" 
                 disabled={!unlocked}
-                aria-label={`Ir al ${step.title}`}
+                aria-label={`Ir a ${step.title}`}
               >
                 {isPassed ? (
                   <span className="material-symbols-outlined notranslate" translate="no">check</span>

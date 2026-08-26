@@ -29,6 +29,14 @@ export const getDimensionLevel = (score) => {
   return "Líder";
 };
 
+// Opciones disponibles para el Paso 3: Mi Meta
+export const miMetaOptions = [
+  "Vender mas y clientes",
+  "Operar mejor",
+  "Cuidar y cumplir",
+  "Avanzar a la 5RI"
+];
+
 // Estructura completa de preguntas y metas por dimensión para el Paso 2
 export const step2DimensionsData = [
   {
@@ -153,6 +161,65 @@ export const questionnaireSteps = [
     subtitle: "Las 9 dimensiones",
     description: "Califique cada frase: 0 Totalmente en desacuerdo · 0,5 En desacuerdo · 1 Ni de acuerdo ni en desacuerdo · 1,5 De acuerdo · 2 Totalmente de acuerdo."
   },
-  { id: 3, code: "Paso 3", title: "Profundización", subtitle: "Plan de acción" },
-  { id: 4, code: "Paso 4", title: "Informe de resultados", subtitle: "Diagnóstico final" }
+  {
+    id: 3,
+    code: "Paso 3",
+    title: "Mi Meta",
+    subtitle: "Selección de objetivo"
+  },
+  {
+    id: 4,
+    code: "Herramienta 3",
+    title: "Termómetro de los 3 pilares de la Industria 5.0",
+    subtitle: "Profundización",
+    description: "Mide si su transformación es humana, sostenible y resiliente —no solo tecnológica—. 0 = no / 1 = a medias / 2 = sí. Base: criterios del Premio Industry 5.0 de la Comisión Europea."
+  },
+  {
+    id: 5,
+    code: "Paso 5",
+    title: "Informe de resultados",
+    subtitle: "Diagnóstico final"
+  }
+];
+
+// Estructura de preguntas y pilares para la Herramienta 3 (Paso 4)
+export const step4PillarsData = [
+  {
+    id: 1,
+    name: "Pilar 1. Centrada en las personas (humana)",
+    maxScore: 6,
+    questions: [
+      { id: "1.1", text: "Las decisiones digitales consideran el bienestar de las personas." },
+      { id: "1.2", text: "La tecnología apoya a las personas, no las reemplaza sin criterio." },
+      { id: "1.3", text: "Las personas se forman para trabajar con nuevas herramientas." }
+    ]
+  },
+  {
+    id: 2,
+    name: "Pilar 2. Sostenible",
+    maxScore: 6,
+    questions: [
+      { id: "2.1", text: "Medimos o reducimos nuestro impacto ambiental." },
+      { id: "2.2", text: "Consideramos criterios sociales y ambientales en compras y operación." },
+      { id: "2.3", text: "Vemos la sostenibilidad como una oportunidad de negocio." }
+    ]
+  },
+  {
+    id: 3,
+    name: "Pilar 3. Resiliente",
+    maxScore: 6,
+    questions: [
+      { id: "3.1", text: "Estamos protegidos ante incidentes digitales (respaldos, seguridad)." },
+      { id: "3.2", text: "Podemos adaptarnos rápido a cambios del entorno." },
+      { id: "3.3", text: "Tenemos planes para seguir operando ante imprevistos." }
+    ]
+  },
+  {
+    id: 4,
+    name: "Integración (lo que distingue a la Industria 5.0)",
+    maxScore: 2,
+    questions: [
+      { id: "4.1", text: "Los tres pilares se consideran juntos en nuestras decisiones, no por separado." }
+    ]
+  }
 ];

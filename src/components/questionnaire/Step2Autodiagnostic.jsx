@@ -26,6 +26,27 @@ export const Step2Autodiagnostic = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Manejador del cambio de la meta personalizada con validación en el rango [0.0, 4.0]
+  const handleCustomTargetChange = (dimId, rawValue) => {
+    if (rawValue === "") {
+      updateStep2CustomTarget(dimId, "");
+      return;
+    }
+
+    const numValue = parseFloat(rawValue);
+
+    if (isNaN(numValue)) return;
+
+    // Clampea el valor para asegurar que se mantenga entre 0 y 4
+    if (numValue < 0) {
+      updateStep2CustomTarget(dimId, 0);
+    } else if (numValue > 4) {
+      updateStep2CustomTarget(dimId, 4);
+    } else {
+      updateStep2CustomTarget(dimId, rawValue);
+    }
+  };
+
   // Verifica si la dimensión actual ya fue completamente respondida
   const isCurrentDimComplete = currentDimension.questions.every(
     (q) => step2Answers[q.id] !== undefined
@@ -49,8 +70,11 @@ export const Step2Autodiagnostic = () => {
     const customTarget = step2CustomTargets[dim.id] ?? "";
     let gapVsCustom = "";
     if (score !== null && customTarget !== "" && customTarget !== null) {
-      const diff = customTarget - score;
-      gapVsCustom = diff < 0 ? 0 : diff;
+      const parsedCustomTarget = parseFloat(customTarget);
+      if (!isNaN(parsedCustomTarget)) {
+        const diff = parsedCustomTarget - score;
+        gapVsCustom = diff < 0 ? 0 : diff;
+      }
     }
 
     return { ...dim, score, level, gap, customTarget, gapVsCustom };
@@ -182,13 +206,13 @@ export const Step2Autodiagnostic = () => {
                   <td onClick={(e) => e.stopPropagation()}>
                     <input 
                       type="number" 
-                      min="0" 
-                      max="4" 
+                      min="0.0" 
+                      max="4.0" 
                       step="0.1" 
-                      className="custom-target-input" 
-                      placeholder="Ej: 4.0"
+                      className="custom-target-input text-center" 
+                      placeholder="0.0 - 4.0"
                       value={row.customTarget} 
-                      onChange={(e) => updateStep2CustomTarget(row.id, e.target.value)}
+                      onChange={(e) => handleCustomTargetChange(row.id, e.target.value)}
                     />
                   </td>
                   <td>{typeof row.gapVsCustom === 'number' ? row.gapVsCustom.toFixed(2) : "-"}</td>

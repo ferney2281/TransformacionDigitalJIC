@@ -12,7 +12,11 @@ export const QuestionnaireProvider = ({ children }) => {
     step1Result: null,
     // PASO 2 DATA
     step2Answers: {}, // Ej: { "1.1": 2, "1.2": 1, ... }
-    step2CustomTargets: {} // Ej: { 1: 4, 2: 3 } (Metas propias por dimensión)
+    step2CustomTargets: {}, // Ej: { 1: 4, 2: 3 } (Metas propias por dimensión)
+    // PASO 3 DATA (Mi Meta)
+    miMeta: "",
+    // PASO 4 DATA (Herramienta 3 · Termómetro Industria 5.0)
+    step4Answers: {}
   });
 
   // Métodos Paso 1
@@ -47,6 +51,22 @@ export const QuestionnaireProvider = ({ children }) => {
     }));
   };
 
+  // Métodos Paso 3 (Mi Meta)
+  const updateMiMeta = (metaValue) => {
+    setQuestionnaireState((prev) => ({
+      ...prev,
+      miMeta: metaValue
+    }));
+  };
+
+  // Métodos Paso 4 (Herramienta 3)
+  const updateStep4Answer = (questionId, value) => {
+    setQuestionnaireState((prev) => ({
+      ...prev,
+      step4Answers: { ...prev.step4Answers, [questionId]: Number(value) }
+    }));
+  };
+
   const setStep = (stepNumber) => {
     setQuestionnaireState((prev) => ({ ...prev, currentStep: stepNumber }));
   };
@@ -58,6 +78,8 @@ export const QuestionnaireProvider = ({ children }) => {
         updateStep1Answer, 
         updateStep2Answer,
         updateStep2CustomTarget,
+        updateMiMeta,
+        updateStep4Answer,
         setStep 
       }}
     >

@@ -5,6 +5,8 @@ import { QuestionnaireProvider, useQuestionnaire } from '../context/Questionnair
 import { ProgressStepper } from '../components/questionnaire/ProgressStepper';
 import { Step1Thermometer } from '../components/questionnaire/Step1Thermometer';
 import { Step2Autodiagnostic } from '../components/questionnaire/Step2Autodiagnostic';
+import { Step3MiMeta } from '../components/questionnaire/Step3MiMeta';
+import { Step4IndustryPillars } from '../components/questionnaire/Step4IndustryPillars';
 import { questionnaireSteps } from '../data/questionnaireData';
 import './Questionnaire.css';
 
@@ -85,18 +87,9 @@ const QuestionnaireContent = () => {
                 {/* VISTAS DE CADA PASO */}
                 {currentStep === 1 && <Step1Thermometer />}
                 {currentStep === 2 && <Step2Autodiagnostic />}
-                {currentStep === 3 && (
-                  <div className="placeholder-step">
-                    <h3>Paso 3: Profundización</h3>
-                    <p>Próximamente plan de acción guiado...</p>
-                  </div>
-                )}
-                {currentStep === 4 && (
-                  <div className="placeholder-step">
-                    <h3>Paso 4: Informe de Resultados</h3>
-                    <p>Generación de informe consolidado...</p>
-                  </div>
-                )}
+                {currentStep === 3 && <Step3MiMeta />}
+                {currentStep === 4 && <Step4IndustryPillars />}
+                
               </section>
             </div>
           </div>
