@@ -638,3 +638,9 @@
     font-size: 0.8rem;
   }
 }
+
+/* Evita que los bloques del reporte se corten entre páginas al exportar a PDF */
+.pdf-section {
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+}

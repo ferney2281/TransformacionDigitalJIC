@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useQuestionnaire } from '../../context/QuestionnaireContext';
+import { DimensionsRadarChart } from './DimensionsRadarChart';
+import { exportReportToPDF } from '../../services/pdf/pdfExportService';
 import { 
   step2DimensionsData, 
   step4PillarsData, 
   getDimensionLevel,
   getThermometerLevel,
   areasOptions,
-  dimensionsList,
   actionsDatabase,
   metaDataMap
 } from '../../data/questionnaireData';
@@ -22,7 +23,11 @@ export const Step5Report = () => {
     step4Answers = {} 
   } = questionnaireState;
 
-  // Normaliza el texto del nivel hacia las claves exactas de actionsDatabase: ("Limitado", "Transición", "Avanzado", "Líder")
+  const reportRef = useRef(null);
+  const [isExporting, setIsExporting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+
+  // Normaliza el texto del nivel hacia las claves exactas de actionsDatabase
   const getNormalizedLevelKey = (levelStr) => {
     if (!levelStr) return "Limitado";
     const str = levelStr.toLowerCase();
@@ -96,202 +101,250 @@ export const Step5Report = () => {
     }
   });
 
+  // HANDLER LIMPIO Y DELEGADO AL SERVICIO DE PDF
+  const handleExportPDF = async () => {
+    if (!selectedArea) {
+      alert("Por favor seleccione el área de la empresa antes de exportar.");
+      return;
+    }
+
+    setIsExporting(true);
+    setSuccessMessage('');
+
+    try {
+      const fileName = `Reporte_Diagnostico_${selectedArea}_${Date.now()}.pdf`;
+      await exportReportToPDF(reportRef.current, fileName);
+
+      setSuccessMessage('¡Informe exportado a PDF correctamente!');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    } catch (error) {
+      console.error("Error al exportar el reporte:", error);
+      alert("Ocurrió un error al generar el archivo PDF.");
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <div className="step5-report-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%', maxWidth: '1000px', margin: '0 auto' }}>
       
-      {/* SELECCIÓN ÁREA */}
-      <div className="q-card" style={{ padding: '1.5rem 2rem', backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
-        <label htmlFor="areaSelect" style={{ display: 'block', fontWeight: 'bold', fontSize: '1.1rem', color: '#0f172a', marginBottom: '0.5rem' }}>
-          Área de la Empresa
-        </label>
-        <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '1rem' }}>
-          Seleccione el área perteneciente para segmentar los resultados del informe:
-        </p>
-        <select
-          id="areaSelect"
-          value={selectedArea}
-          onChange={(e) => updateSelectedArea && updateSelectedArea(e.target.value)}
-          style={{ width: '100%', maxWidth: '400px', padding: '0.75rem 1rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '1rem', backgroundColor: '#ffffff', color: '#0f172a' }}
-        >
-          <option value="">Seleccione un área...</option>
-          {(areasOptions || []).map((area) => (
-            <option key={area.id} value={area.id}>{area.label}</option>
-          ))}
-        </select>
-      </div>
+      {/* Reglas CSS inyectadas para forzar el comportamiento anti-corte en PDF */}
+      <style>{`
+        .pdf-section {
+          page-break-inside: avoid !important;
+          break-inside: avoid !important;
+        }
+      `}</style>
 
-      {/* TERMÓMETRO */}
-      <div style={{ padding: '1.5rem 2rem', backgroundColor: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <div style={{ flex: 1 }}>
-          <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#0f172a', margin: '0 0 0.5rem 0' }}>Resultados del Termómetro Digital</h4>
-          <p style={{ margin: '0 0 0.25rem 0', fontSize: '1rem', color: '#dc2626', fontWeight: '600' }}>Nivel: {thermometerInfo.level}</p>
-          <p style={{ margin: 0, fontSize: '0.95rem', color: '#334155' }}>{thermometerInfo.recommendation}</p>
+      {/* MENSAJE DE ÉXITO */}
+      {successMessage && (
+        <div style={{ padding: '1rem', backgroundColor: '#dcfce7', border: '1px solid #86efac', borderRadius: '12px', color: '#166534', fontWeight: 'bold', textAlign: 'center' }}>
+          {successMessage}
         </div>
-        <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#064e3b', whiteSpace: 'nowrap' }}>
-          {digitalThermometerScore} / {digitalThermometerMax} pts
+      )}
+
+      {/* ÁREA QUE SERÁ IMPRESA EN EL PDF DIVIDIDA EN .pdf-section */}
+      <div ref={reportRef} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', backgroundColor: '#ffffff', padding: '1rem' }}>
+        
+        {/* SELECCIÓN ÁREA */}
+        <div className="pdf-section q-card" style={{ padding: '1.5rem 2rem', backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
+          <label htmlFor="areaSelect" style={{ display: 'block', fontWeight: 'bold', fontSize: '1.1rem', color: '#0f172a', marginBottom: '0.5rem' }}>
+            Área de la Empresa
+          </label>
+          <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '1rem' }}>
+            Seleccione el área perteneciente para segmentar los resultados del informe:
+          </p>
+          <select
+            id="areaSelect"
+            value={selectedArea}
+            onChange={(e) => updateSelectedArea && updateSelectedArea(e.target.value)}
+            style={{ width: '100%', maxWidth: '400px', padding: '0.75rem 1rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '1rem', backgroundColor: '#ffffff', color: '#0f172a' }}
+          >
+            <option value="">Seleccione un área...</option>
+            {(areasOptions || []).map((area) => (
+              <option key={area.id} value={area.id}>{area.label}</option>
+            ))}
+          </select>
         </div>
-      </div>
 
-      {/* TABLA RESUMEN */}
-      <div className="summary-section" style={{ backgroundColor: '#ffffff', padding: '1.5rem', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
-        <h3 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#0f172a', marginBottom: '1.25rem', textTransform: 'uppercase' }}>
-          RESUMEN — NIVEL Y BRECHA POR DIMENSIÓN
-        </h3>
-        <div className="table-responsive" style={{ overflowX: 'auto' }}>
-          <table className="results-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
-            <thead>
-              <tr style={{ backgroundColor: '#0f2942', color: '#ffffff' }}>
-                <th style={{ padding: '0.75rem 1rem' }}>Dimensión</th>
-                <th style={{ padding: '0.75rem 0.5rem' }}>Su puntaje (0-4)</th>
-                <th style={{ padding: '0.75rem 0.5rem' }}>Su nivel</th>
-                <th style={{ padding: '0.75rem 0.5rem' }}>Meta ref.</th>
-                <th style={{ padding: '0.75rem 0.5rem' }}>Brecha</th>
-                <th style={{ padding: '0.75rem 0.5rem' }}>Propiameta</th>
-                <th style={{ padding: '0.75rem 0.5rem' }}>Brecha vs propia</th>
-              </tr>
-            </thead>
-            <tbody>
-              {dimensionResults.map((row) => (
-                <tr key={row.id} style={{ borderBottom: '1px solid #e2e8f0' }}>
-                  <td style={{ padding: '0.75rem 1rem', fontWeight: '600' }}>{row.id}. {row.name}</td>
-                  <td style={{ padding: '0.75rem 0.5rem' }}>{(row.score || 0).toFixed(2)}</td>
-                  <td style={{ padding: '0.75rem 0.5rem' }}>
-                    <span style={{ padding: '4px 10px', borderRadius: '12px', fontSize: '0.8rem', fontWeight: '600', backgroundColor: row.level === 'Líder' ? '#dcfce7' : row.level === 'Avanzado' ? '#dbeafe' : (row.level === 'En transición' || row.level === 'Transición') ? '#fef3c7' : '#fee2e2', color: row.level === 'Líder' ? '#15803d' : row.level === 'Avanzado' ? '#1d4ed8' : (row.level === 'En transición' || row.level === 'Transición') ? '#b45309' : '#b91c1c' }}>
-                      {row.level}
-                    </span>
-                  </td>
-                  <td style={{ padding: '0.75rem 0.5rem' }}>{(row.targetRef || 0).toFixed(2)}</td>
-                  <td style={{ padding: '0.75rem 0.5rem' }}>{(row.gap || 0).toFixed(2)}</td>
-                  <td style={{ padding: '0.75rem 0.5rem' }}>
-                    <input type="text" readOnly value={row.customTarget} style={{ width: '60px', padding: '2px 6px', borderRadius: '4px', border: '1px solid #cbd5e1', textAlign: 'center' }} />
-                  </td>
-                  <td style={{ padding: '0.75rem 0.5rem' }}>{typeof row.gapVsCustom === 'number' ? row.gapVsCustom.toFixed(2) : row.gapVsCustom}</td>
-                </tr>
-              ))}
-              <tr style={{ backgroundColor: '#f8fafc', fontWeight: 'bold' }}>
-                <td style={{ padding: '0.75rem 1rem' }}>PUNTAJE GENERAL</td>
-                <td style={{ padding: '0.75rem 0.5rem' }}>{generalScore.toFixed(2)}</td>
-                <td style={{ padding: '0.75rem 0.5rem' }}>{generalLevel}</td>
-                <td colSpan="4"></td>
-              </tr>
-            </tbody>
-          </table>
+        {/* TERMÓMETRO */}
+        <div className="pdf-section" style={{ padding: '1.5rem 2rem', backgroundColor: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div style={{ flex: 1 }}>
+            <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#0f172a', margin: '0 0 0.5rem 0' }}>Resultados del Termómetro Digital</h4>
+            <p style={{ margin: '0 0 0.25rem 0', fontSize: '1rem', color: '#dc2626', fontWeight: '600' }}>Nivel: {thermometerInfo.level}</p>
+            <p style={{ margin: 0, fontSize: '0.95rem', color: '#334155' }}>{thermometerInfo.recommendation}</p>
+          </div>
+          <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#064e3b', whiteSpace: 'nowrap' }}>
+            {digitalThermometerScore} / {digitalThermometerMax} pts
+          </div>
         </div>
-      </div>
 
-      {/* PASO 3 RESULTADOS */}
-      <div style={{ padding: '1.5rem 2rem', backgroundColor: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-        <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#0f172a', margin: 0 }}>Resultados del Paso 3 — Énfasis según su meta</h4>
-        <p style={{ margin: 0, fontSize: '1rem', color: '#d97706', fontWeight: '600' }}>Meta seleccionada: {metaInfo.label}</p>
-        <p style={{ margin: 0, fontSize: '0.95rem', color: '#334155' }}>Refuerce las herramientas {metaInfo.tools}.</p>
-      </div>
-
-      {/* PASO 4 RESULTADOS */}
-      <div style={{ padding: '1.5rem 2rem', backgroundColor: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <div style={{ flex: 1 }}>
-          <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#0f172a', margin: '0 0 0.5rem 0' }}>Resultados de los Pilares de la Industria 5.0</h4>
-          <p style={{ margin: '0 0 0.25rem 0', fontSize: '1rem', color: '#d97706', fontWeight: '600' }}>Pilar prioritario: {pilarPrioritario}</p>
-          <p style={{ margin: 0, fontSize: '0.95rem', color: '#334155' }}>Llévelo como prioridad a la Herramienta 6.</p>
-        </div>
-        <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#064e3b', whiteSpace: 'nowrap' }}>
-          {pilarScore} / {pilarMax} pts
-        </div>
-      </div>
-
-      {/* TRANSVERSALES */}
-      <div style={{ padding: '1.5rem 2rem', backgroundColor: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-        <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#0f172a', margin: 0 }}>Siempre, en paralelo — Transversales</h4>
-        <p style={{ margin: 0, fontSize: '0.95rem', color: '#334155' }}>Herramienta 5 (priorizar) · 6 (hoja de ruta) · 12 (medir) · 17 (apoyo y financiación) · 18 (matriz de estrategias de innovación).</p>
-      </div>
-
-      {/* MODULACIÓN TAMAÑO */}
-      <div style={{ padding: '1.5rem 2rem', backgroundColor: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-        <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#0f172a', margin: 0 }}>El tamaño solo modula (no cambia el camino)</h4>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', fontSize: '0.95rem', color: '#334155' }}>
-          <p style={{ margin: 0 }}><strong style={{ color: '#0f172a' }}>Micro y pequeña:</strong> empiece por lo de bajo costo y alto impacto; apóyese en la oferta institucional (Herramienta 17).</p>
-          <p style={{ margin: 0 }}><strong style={{ color: '#0f172a' }}>Mediana y grande:</strong> mayor profundidad de pilotos, gobernanza formal y rol tractor sobre su cadena de proveedores.</p>
-        </div>
-      </div>
-
-      {/* SECCIÓN DINÁMICA DE ACCIONES SEGÚN NIVEL GENERAL */}
-      <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#0f172a', margin: 0 }}>
-            Acciones recomendadas por Dimensión
+        {/* TABLA RESUMEN */}
+        <div className="pdf-section summary-section" style={{ backgroundColor: '#ffffff', padding: '1.5rem', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#0f172a', marginBottom: '1.25rem', textTransform: 'uppercase' }}>
+            RESUMEN — NIVEL Y BRECHA POR DIMENSIÓN
           </h3>
-          <span style={{ fontSize: '0.9rem', fontWeight: '600', color: '#1e40af', backgroundColor: '#dbeafe', padding: '6px 12px', borderRadius: '8px' }}>
-            Nivel General: {generalLevel}
-          </span>
+          <div className="table-responsive" style={{ overflowX: 'auto' }}>
+            <table className="results-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
+              <thead>
+                <tr style={{ backgroundColor: '#0f2942', color: '#ffffff' }}>
+                  <th style={{ padding: '0.75rem 1rem' }}>Dimensión</th>
+                  <th style={{ padding: '0.75rem 0.5rem' }}>Su puntaje (0-4)</th>
+                  <th style={{ padding: '0.75rem 0.5rem' }}>Su nivel</th>
+                  <th style={{ padding: '0.75rem 0.5rem' }}>Meta ref.</th>
+                  <th style={{ padding: '0.75rem 0.5rem' }}>Brecha</th>
+                  <th style={{ padding: '0.75rem 0.5rem' }}>Propiameta</th>
+                  <th style={{ padding: '0.75rem 0.5rem' }}>Brecha vs propia</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dimensionResults.map((row) => (
+                  <tr key={row.id} style={{ borderBottom: '1px solid #e2e8f0' }}>
+                    <td style={{ padding: '0.75rem 1rem', fontWeight: '600' }}>{row.id}. {row.name}</td>
+                    <td style={{ padding: '0.75rem 0.5rem' }}>{(row.score || 0).toFixed(2)}</td>
+                    <td style={{ padding: '0.75rem 0.5rem' }}>
+                      <span style={{ padding: '4px 10px', borderRadius: '12px', fontSize: '0.8rem', fontWeight: '600', backgroundColor: row.level === 'Líder' ? '#dcfce7' : row.level === 'Avanzado' ? '#dbeafe' : (row.level === 'En transición' || row.level === 'Transición') ? '#fef3c7' : '#fee2e2', color: row.level === 'Líder' ? '#15803d' : row.level === 'Avanzado' ? '#1d4ed8' : (row.level === 'En transición' || row.level === 'Transición') ? '#b45309' : '#b91c1c' }}>
+                        {row.level}
+                      </span>
+                    </td>
+                    <td style={{ padding: '0.75rem 0.5rem' }}>{(row.targetRef || 0).toFixed(2)}</td>
+                    <td style={{ padding: '0.75rem 0.5rem' }}>{(row.gap || 0).toFixed(2)}</td>
+                    <td style={{ padding: '0.75rem 0.5rem' }}>
+                      <input type="text" readOnly value={row.customTarget} style={{ width: '60px', padding: '2px 6px', borderRadius: '4px', border: '1px solid #cbd5e1', textAlign: 'center' }} />
+                    </td>
+                    <td style={{ padding: '0.75rem 0.5rem' }}>{typeof row.gapVsCustom === 'number' ? row.gapVsCustom.toFixed(2) : row.gapVsCustom}</td>
+                  </tr>
+                ))}
+                <tr style={{ backgroundColor: '#f8fafc', fontWeight: 'bold' }}>
+                  <td style={{ padding: '0.75rem 1rem' }}>PUNTAJE GENERAL</td>
+                  <td style={{ padding: '0.75rem 0.5rem' }}>{generalScore.toFixed(2)}</td>
+                  <td style={{ padding: '0.75rem 0.5rem' }}>{generalLevel}</td>
+                  <td colSpan="4"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        {dimensionResults.map((dimRes) => {
-          // Obtención del código de dimensión ("D1", "D2", etc.)
-          const dimCode = dimRes.code || `D${dimRes.id}`;
-          
-          // Se filtran las acciones de la lista GLOBAL (basada en generalLevel) usando el id/código de la dimensión
-          const dimActions = globalActionsForLevel.filter(a => a.dim === dimCode);
+        {/* PASO 3 RESULTADOS */}
+        <div className="pdf-section" style={{ padding: '1.5rem 2rem', backgroundColor: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+          <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#0f172a', margin: 0 }}>Resultados del Paso 3 — Énfasis según su meta</h4>
+          <p style={{ margin: 0, fontSize: '1rem', color: '#d97706', fontWeight: '600' }}>Meta seleccionada: {metaInfo.label}</p>
+          <p style={{ margin: 0, fontSize: '0.95rem', color: '#334155' }}>Refuerce las herramientas {metaInfo.tools}.</p>
+        </div>
 
-          return (
-            <div 
-              key={dimRes.id}
-              style={{
-                padding: '1.5rem 2rem',
-                backgroundColor: '#f8fafc',
-                borderRadius: '16px',
-                border: '1px solid #e2e8f0',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.75rem'
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#0f172a', margin: 0 }}>
-                  {dimRes.id}. {dimRes.name}
-                </h4>
-                <span style={{ fontSize: '0.85rem', fontWeight: '600', color: '#64748b', backgroundColor: '#f1f5f9', padding: '4px 10px', borderRadius: '8px' }}>
-                  Puntaje indiv.: {dimRes.score.toFixed(2)} ({dimRes.level})
-                </span>
-              </div>
+        {/* PASO 4 RESULTADOS */}
+        <div className="pdf-section" style={{ padding: '1.5rem 2rem', backgroundColor: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div style={{ flex: 1 }}>
+            <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#0f172a', margin: '0 0 0.5rem 0' }}>Resultados de los Pilares de la Industria 5.0</h4>
+            <p style={{ margin: '0 0 0.25rem 0', fontSize: '1rem', color: '#d97706', fontWeight: '600' }}>Pilar prioritario: {pilarPrioritario}</p>
+            <p style={{ margin: 0, fontSize: '0.95rem', color: '#334155' }}>Llévelo como prioridad a la Herramienta 6.</p>
+          </div>
+          <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#064e3b', whiteSpace: 'nowrap' }}>
+            {pilarScore} / {pilarMax} pts
+          </div>
+        </div>
 
-              {dimActions.length > 0 ? (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  {dimActions.map((act) => (
-                    <div 
-                      key={act.id} 
-                      style={{ 
-                        padding: '0.75rem 1rem', 
-                        backgroundColor: '#ffffff', 
-                        borderRadius: '8px', 
-                        border: '1px solid #cbd5e1',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '0.25rem'
-                      }}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#2563eb' }}>ID: {act.id}</span>
-                        <span style={{ fontSize: '0.8rem', fontWeight: '600', color: '#d97706', backgroundColor: '#fef3c7', padding: '2px 8px', borderRadius: '4px' }}>
-                          {act.horizon}
-                        </span>
-                      </div>
-                      <p style={{ margin: 0, fontSize: '0.95rem', color: '#334155', lineHeight: '1.4' }}>
-                        {act.action}
-                      </p>
-                    </div>
-                  ))}
+        {/* TRANSVERSALES */}
+        <div className="pdf-section" style={{ padding: '1.5rem 2rem', backgroundColor: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#0f172a', margin: 0 }}>Siempre, en paralelo — Transversales</h4>
+          <p style={{ margin: 0, fontSize: '0.95rem', color: '#334155' }}>Herramienta 5 (priorizar) · 6 (hoja de ruta) · 12 (medir) · 17 (apoyo y financiación) · 18 (matriz de estrategias de innovación).</p>
+        </div>
+
+        {/* MODULACIÓN TAMAÑO */}
+        <div className="pdf-section" style={{ padding: '1.5rem 2rem', backgroundColor: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#0f172a', margin: 0 }}>El tamaño solo modula (no cambia el camino)</h4>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', fontSize: '0.95rem', color: '#334155' }}>
+            <p style={{ margin: 0 }}><strong style={{ color: '#0f172a' }}>Micro y pequeña:</strong> empiece por lo de bajo costo y alto impacto; apóyese en la oferta institucional (Herramienta 17).</p>
+            <p style={{ margin: 0 }}><strong style={{ color: '#0f172a' }}>Mediana y grande:</strong> mayor profundidad de pilotos, gobernanza formal y rol tractor sobre su cadena de proveedores.</p>
+          </div>
+        </div>
+
+        {/* ACCIONES RECOMENDADAS - CADA DIMENSIÓN ES UN BLOQUE PDF-SECTION SEPARADO */}
+        <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#0f172a', margin: 0 }}>
+              Acciones recomendadas por Dimensión
+            </h3>
+            <span style={{ fontSize: '0.9rem', fontWeight: '600', color: '#1e40af', backgroundColor: '#dbeafe', padding: '6px 12px', borderRadius: '8px' }}>
+              Nivel General: {generalLevel}
+            </span>
+          </div>
+
+          {dimensionResults.map((dimRes) => {
+            const dimCode = dimRes.code || `D${dimRes.id}`;
+            const dimActions = globalActionsForLevel.filter(a => a.dim === dimCode);
+
+            return (
+              <div 
+                key={dimRes.id}
+                className="pdf-section"
+                style={{
+                  padding: '1.5rem 2rem',
+                  backgroundColor: '#f8fafc',
+                  borderRadius: '16px',
+                  border: '1px solid #e2e8f0',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.75rem'
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#0f172a', margin: 0 }}>
+                    {dimRes.id}. {dimRes.name}
+                  </h4>
+                  <span style={{ fontSize: '0.85rem', fontWeight: '600', color: '#64748b', backgroundColor: '#f1f5f9', padding: '4px 10px', borderRadius: '8px' }}>
+                    Puntaje indiv.: {dimRes.score.toFixed(2)} ({dimRes.level})
+                  </span>
                 </div>
-              ) : (
-                <p style={{ margin: 0, fontSize: '0.9rem', color: '#94a3b8', fontStyle: 'italic' }}>
-                  No hay acciones sugeridas para la dimensión {dimCode} en el nivel general {generalLevel}.
-                </p>
-              )}
-            </div>
-          );
-        })}
+
+                {dimActions.length > 0 ? (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    {dimActions.map((act) => (
+                      <div 
+                        key={act.id} 
+                        style={{ 
+                          padding: '0.75rem 1rem', 
+                          backgroundColor: '#ffffff', 
+                          borderRadius: '8px', 
+                          border: '1px solid #cbd5e1',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '0.25rem'
+                        }}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#2563eb' }}>ID: {act.id}</span>
+                          <span style={{ fontSize: '0.8rem', fontWeight: '600', color: '#d97706', backgroundColor: '#fef3c7', padding: '2px 8px', borderRadius: '4px' }}>
+                            {act.horizon}
+                          </span>
+                        </div>
+                        <p style={{ margin: 0, fontSize: '0.95rem', color: '#334155', lineHeight: '1.4' }}>
+                          {act.action}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p style={{ margin: 0, fontSize: '0.9rem', color: '#94a3b8', fontStyle: 'italic' }}>
+                    No hay acciones sugeridas para la dimensión {dimCode} en el nivel general {generalLevel}.
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* GRÁFICO DE RADAR - SECCIÓN INDIVIDUAL ATÓMICA */}
+        <div className="pdf-section" style={{ padding: '1rem', backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
+          <DimensionsRadarChart dimensionResults={dimensionResults} />
+        </div>
+
       </div>
 
-      {/* BOTÓN NAVEGACIÓN */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1rem' }}>
+      {/* BARRA DE NAVEGACIÓN Y BOTÓN EXPORTAR */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem' }}>
         <button 
           type="button"
           onClick={() => {
@@ -309,6 +362,23 @@ export const Step5Report = () => {
           }}
         >
           Volver al Paso 4
+        </button>
+
+        <button
+          type="button"
+          onClick={handleExportPDF}
+          disabled={isExporting}
+          style={{
+            padding: '0.75rem 1.5rem',
+            borderRadius: '8px',
+            border: 'none',
+            backgroundColor: isExporting ? '#94a3b8' : '#2563eb',
+            color: '#ffffff',
+            fontWeight: 'bold',
+            cursor: isExporting ? 'not-allowed' : 'pointer'
+          }}
+        >
+          {isExporting ? 'Exportando PDF...' : 'Exportar Informe a PDF'}
         </button>
       </div>
 
