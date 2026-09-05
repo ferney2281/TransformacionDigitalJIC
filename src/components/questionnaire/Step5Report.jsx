@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useQuestionnaire } from '../../context/QuestionnaireContext';
 import { DimensionsRadarChart } from './DimensionsRadarChart';
 import { exportReportToPDF } from '../../services/pdf/pdfExportService';
+import { saveResponsesToGoogleSheets } from '../../services/sheetService';
 import { 
   step2DimensionsData, 
   step4PillarsData, 
@@ -101,7 +102,7 @@ export const Step5Report = () => {
     }
   });
 
-  // HANDLER LIMPIO Y DELEGADO AL SERVICIO DE PDF
+  // HANDLER PRINCIPAL: GUARDAR EN GOOGLE SHEETS Y GENERAR PDF
   const handleExportPDF = async () => {
     if (!selectedArea) {
       alert("Por favor seleccione el área de la empresa antes de exportar.");
@@ -112,15 +113,36 @@ export const Step5Report = () => {
     setSuccessMessage('');
 
     try {
+      // 1. Guardar registro consolidado en Google Sheets
+      const payloadToSave = {
+        fecha: new Date().toLocaleString(),
+        area: selectedArea,
+        termometroScore: digitalThermometerScore,
+        termometroNivel: thermometerInfo.level,
+        puntajeGeneral: generalScore.toFixed(2),
+        nivelGeneral: generalLevel,
+        metaSeleccionada: metaInfo.label,
+        pilarPrioritario: pilarPrioritario,
+        pilarScore: pilarScore,
+        dimensiones: dimensionResults.map(d => ({
+          nombre: d.name,
+          puntaje: d.score.toFixed(2),
+          nivel: d.level
+        }))
+      };
+
+      await saveResponsesToGoogleSheets(payloadToSave);
+
+      // 2. Exportar el informe a PDF
       const fileName = `Reporte_Diagnostico_${selectedArea}_${Date.now()}.pdf`;
       await exportReportToPDF(reportRef.current, fileName);
 
-      setSuccessMessage('¡Informe exportado a PDF correctamente!');
+      setSuccessMessage('¡Informe exportado a PDF y guardado en Google Sheets correctamente!');
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
     } catch (error) {
-      console.error("Error al exportar el reporte:", error);
-      alert("Ocurrió un error al generar el archivo PDF.");
+      console.error("Error en la operación de exportación/guardado:", error);
+      alert("Ocurrió un error al procesar la solicitud.");
     } finally {
       setIsExporting(false);
     }
@@ -378,7 +400,7 @@ export const Step5Report = () => {
             cursor: isExporting ? 'not-allowed' : 'pointer'
           }}
         >
-          {isExporting ? 'Exportando PDF...' : 'Exportar Informe a PDF'}
+          {isExporting ? 'Procesando...' : 'Guardar y Exportar PDF'}
         </button>
       </div>
 
