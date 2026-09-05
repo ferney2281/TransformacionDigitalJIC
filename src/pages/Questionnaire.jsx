@@ -7,6 +7,7 @@ import { Step1Thermometer } from '../components/questionnaire/Step1Thermometer';
 import { Step2Autodiagnostic } from '../components/questionnaire/Step2Autodiagnostic';
 import { Step3MiMeta } from '../components/questionnaire/Step3MiMeta';
 import { Step4IndustryPillars } from '../components/questionnaire/Step4IndustryPillars';
+import { Step5Report } from '../components/questionnaire/Step5Report';
 import { questionnaireSteps } from '../data/questionnaireData';
 import './Questionnaire.css';
 
@@ -89,6 +90,7 @@ const QuestionnaireContent = () => {
                 {currentStep === 2 && <Step2Autodiagnostic />}
                 {currentStep === 3 && <Step3MiMeta />}
                 {currentStep === 4 && <Step4IndustryPillars />}
+                {currentStep === 5 && <Step5Report />} {/* <-- AGREGAR ESTA LÍNEA */}
                 
               </section>
             </div>

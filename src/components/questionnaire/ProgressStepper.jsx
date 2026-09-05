@@ -3,13 +3,21 @@ import { useQuestionnaire } from '../../context/QuestionnaireContext';
 import { questionnaireSteps } from '../../data/questionnaireData';
 
 export const ProgressStepper = () => {
-  const { questionnaireState, setStep } = useQuestionnaire();
-  const { currentStep, step1Answers, step2Answers, miMeta, step4Answers } = questionnaireState;
+  const { questionnaireState = {}, setStep } = useQuestionnaire();
+  const { 
+    currentStep = 1, 
+    step1Answers = {}, 
+    step2Answers = {}, 
+    miMeta = "", 
+    step4Answers = {} 
+  } = questionnaireState;
+
+  const stepsList = questionnaireSteps || [];
 
   // Verificación de avance para determinar qué pasos están completados
   const isStep1Complete = Object.keys(step1Answers || {}).length > 0;
   const isStep2Complete = Object.keys(step2Answers || {}).length > 0;
-  const isStep3Complete = miMeta !== "" && miMeta !== undefined;
+  const isStep3Complete = miMeta !== "" && miMeta !== undefined && miMeta !== null;
   const isStep4Complete = Object.keys(step4Answers || {}).length > 0;
 
   // Define si un paso se puede clicar según el progreso del usuario
@@ -23,7 +31,8 @@ export const ProgressStepper = () => {
   };
 
   // Porcentaje para la barra conectora verde
-  const fillPercentage = ((currentStep - 1) / (questionnaireSteps.length - 1)) * 100;
+  const totalSteps = stepsList.length > 1 ? stepsList.length - 1 : 1;
+  const fillPercentage = Math.min(Math.max(((currentStep - 1) / totalSteps) * 100, 0), 100);
 
   return (
     <div className="stepper-connector-wrapper">
@@ -35,7 +44,7 @@ export const ProgressStepper = () => {
       </div>
 
       <div className="stepper-steps-container">
-        {questionnaireSteps.map((step) => {
+        {stepsList.map((step) => {
           const unlocked = isStepUnlocked(step.id);
           const isActive = currentStep === step.id;
           const isPassed = currentStep > step.id;
@@ -44,7 +53,12 @@ export const ProgressStepper = () => {
             <div 
               key={step.id} 
               className={`stepper-step ${isActive ? 'active' : ''} ${isPassed ? 'passed' : ''} ${!unlocked ? 'disabled' : ''}`}
-              onClick={() => unlocked && setStep(step.id)}
+              onClick={() => {
+                if (unlocked && setStep) {
+                  setStep(step.id);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
             >
               <button 
                 type="button" 

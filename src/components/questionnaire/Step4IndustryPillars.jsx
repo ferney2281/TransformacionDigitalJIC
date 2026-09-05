@@ -3,13 +3,14 @@ import { useQuestionnaire } from '../../context/QuestionnaireContext';
 import { step4PillarsData } from '../../data/questionnaireData';
 
 export const Step4IndustryPillars = () => {
-  const { questionnaireState, updateStep4Answer, setStep } = useQuestionnaire();
-  const { step4Answers } = questionnaireState;
+  const { questionnaireState = {}, updateStep4Answer, setStep } = useQuestionnaire();
+  const { step4Answers = {} } = questionnaireState;
 
   // Estado del pilar actual (0 a 3)
   const [currentPillarIndex, setCurrentPillarIndex] = useState(0);
 
-  const activePillar = step4PillarsData[currentPillarIndex];
+  const pillarsList = step4PillarsData || [];
+  const activePillar = pillarsList[currentPillarIndex] || { questions: [], maxScore: 0, name: '' };
 
   // Opciones de puntuación (0, 1, 2)
   const scoreOptions = [
@@ -18,8 +19,9 @@ export const Step4IndustryPillars = () => {
     { value: 2, label: '2 = Sí' }
   ];
 
-  // Cálculo de puntaje del pilar especifico
+  // Cálculo de puntaje del pilar específico
   const getPillarScore = (pillar) => {
+    if (!pillar || !pillar.questions) return 0;
     return pillar.questions.reduce((sum, q) => {
       const val = step4Answers[q.id];
       return sum + (val !== undefined && val !== '' ? Number(val) : 0);
@@ -28,14 +30,15 @@ export const Step4IndustryPillars = () => {
 
   // Cálculo del puntaje total obtenido en los 4 pilares
   const getTotalScore = () => {
-    return step4PillarsData.reduce((acc, pillar) => acc + getPillarScore(pillar), 0);
+    return pillarsList.reduce((acc, pillar) => acc + getPillarScore(pillar), 0);
   };
 
   // Puntos máximos posibles acumulados (6 + 6 + 6 + 2 = 20)
-  const totalMaxScore = step4PillarsData.reduce((acc, p) => acc + p.maxScore, 0);
+  const totalMaxScore = pillarsList.reduce((acc, p) => acc + (p.maxScore || 0), 0);
 
   // Validar si el pilar actual está respondido por completo
   const isPillarComplete = (pillar) => {
+    if (!pillar || !pillar.questions || pillar.questions.length === 0) return false;
     return pillar.questions.every(
       (q) => step4Answers[q.id] !== undefined && step4Answers[q.id] !== ''
     );
@@ -43,17 +46,19 @@ export const Step4IndustryPillars = () => {
 
   // Obtener el pilar más bajo (prioritario) excluyendo integración
   const getLowestPillar = () => {
-    const mainPillars = step4PillarsData.filter((p) => p.id !== 4);
+    const mainPillars = pillarsList.filter((p) => p.id !== 4);
+    if (mainPillars.length === 0) return 'N/A';
+
     let lowestPillarName = 'N/A';
     let minRatio = Infinity;
 
     mainPillars.forEach((p) => {
       const score = getPillarScore(p);
-      const ratio = score / p.maxScore;
+      const ratio = p.maxScore > 0 ? score / p.maxScore : 0;
       if (ratio < minRatio) {
         minRatio = ratio;
         // Nombre simplificado del pilar
-        lowestPillarName = p.name.replace(/Pilar \d+\.\s*/, '');
+        lowestPillarName = p.name ? p.name.replace(/Pilar \d+\.\s*/, '') : 'N/A';
       }
     });
 
@@ -61,11 +66,11 @@ export const Step4IndustryPillars = () => {
   };
 
   const handleNext = () => {
-    if (currentPillarIndex < step4PillarsData.length - 1) {
+    if (currentPillarIndex < pillarsList.length - 1) {
       setCurrentPillarIndex((prev) => prev + 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      setStep(5);
+      if (setStep) setStep(5);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -75,13 +80,13 @@ export const Step4IndustryPillars = () => {
       setCurrentPillarIndex((prev) => prev - 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      setStep(3);
+      if (setStep) setStep(3);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
   return (
-    <div className="step4-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div className="step4-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%', maxWidth: '1000px', margin: '0 auto' }}>
       
       {/* TARJETA PRINCIPAL DEL CUESTIONARIO */}
       <div 
@@ -106,7 +111,7 @@ export const Step4IndustryPillars = () => {
               fontWeight: '600' 
             }}
           >
-            Pilar {currentPillarIndex + 1} de {step4PillarsData.length}
+            Pilar {currentPillarIndex + 1} de {pillarsList.length}
           </span>
 
           <div 
@@ -117,7 +122,7 @@ export const Step4IndustryPillars = () => {
               fontSize: '1rem' 
             }}
           >
-            {getPillarScore(activePillar)} / {activePillar.maxScore} pts
+            {getPillarScore(activePillar)} / {activePillar.maxScore || 0} pts
           </div>
         </div>
 
@@ -128,7 +133,7 @@ export const Step4IndustryPillars = () => {
 
         {/* Tarjetas independientes por pregunta */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', marginBottom: '2rem' }}>
-          {activePillar.questions.map((q) => {
+          {(activePillar.questions || []).map((q) => {
             const currentVal = step4Answers[q.id];
 
             return (
@@ -155,7 +160,7 @@ export const Step4IndustryPillars = () => {
                       <button
                         key={opt.value}
                         type="button"
-                        onClick={() => updateStep4Answer(q.id, opt.value)}
+                        onClick={() => updateStep4Answer && updateStep4Answer(q.id, opt.value)}
                         style={{
                           display: 'flex',
                           alignItems: 'center',
@@ -235,13 +240,13 @@ export const Step4IndustryPillars = () => {
               transition: 'background-color 0.2s ease'
             }}
           >
-            {currentPillarIndex < step4PillarsData.length - 1 ? 'Siguiente' : 'Continuar al Paso 5'}
+            {currentPillarIndex < pillarsList.length - 1 ? 'Siguiente' : 'Continuar al Paso 5'}
             <span className="material-symbols-outlined notranslate" translate="no">arrow_forward</span>
           </button>
         </div>
       </div>
 
-      {/* TARJETA INFERIOR DE RESULTADOS DE LOS PILARES (Estilo exacto al Paso 1) */}
+      {/* TARJETA INFERIOR DE RESULTADOS DE LOS PILARES */}
       <div 
         style={{
           padding: '1.75rem 2rem',

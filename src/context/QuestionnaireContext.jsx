@@ -1,23 +1,27 @@
 import React, { createContext, useContext, useState } from 'react';
-import { getThermometerLevel, step2DimensionsData } from '../data/questionnaireData';
+import { getThermometerLevel } from '../data/questionnaireData';
 
 const QuestionnaireContext = createContext();
 
+const initialQuestionnaireState = {
+  currentStep: 1,
+  // PASO 1 DATA (Termómetro Digital)
+  step1Answers: {},
+  step1TotalScore: 0,
+  step1Result: null,
+  // PASO 2 DATA (Autodiagnóstico por Dimensiones)
+  step2Answers: {}, // Ej: { "1.1": 2, "1.2": 1, ... }
+  step2CustomTargets: {}, // Ej: { 1: 4, 2: 3 } (Metas propias por dimensión)
+  // PASO 3 DATA (Mi Meta)
+  miMeta: "",
+  // PASO 4 DATA (Herramienta 3 · Termómetro Industria 5.0)
+  step4Answers: {},
+  // PASO 5 DATA (Informe de Resultados)
+  selectedArea: ""
+};
+
 export const QuestionnaireProvider = ({ children }) => {
-  const [questionnaireState, setQuestionnaireState] = useState({
-    currentStep: 1,
-    // PASO 1 DATA
-    step1Answers: {},
-    step1TotalScore: 0,
-    step1Result: null,
-    // PASO 2 DATA
-    step2Answers: {}, // Ej: { "1.1": 2, "1.2": 1, ... }
-    step2CustomTargets: {}, // Ej: { 1: 4, 2: 3 } (Metas propias por dimensión)
-    // PASO 3 DATA (Mi Meta)
-    miMeta: "",
-    // PASO 4 DATA (Herramienta 3 · Termómetro Industria 5.0)
-    step4Answers: {}
-  });
+  const [questionnaireState, setQuestionnaireState] = useState(initialQuestionnaireState);
 
   // Métodos Paso 1
   const updateStep1Answer = (questionId, value) => {
@@ -59,7 +63,7 @@ export const QuestionnaireProvider = ({ children }) => {
     }));
   };
 
-  // Métodos Paso 4 (Herramienta 3)
+  // Métodos Paso 4 (Herramienta 3 · Termómetro Industria 5.0)
   const updateStep4Answer = (questionId, value) => {
     setQuestionnaireState((prev) => ({
       ...prev,
@@ -67,8 +71,22 @@ export const QuestionnaireProvider = ({ children }) => {
     }));
   };
 
+  // Métodos Paso 5 (Informe de Resultados)
+  const updateSelectedArea = (areaValue) => {
+    setQuestionnaireState((prev) => ({
+      ...prev,
+      selectedArea: areaValue
+    }));
+  };
+
+  // Control de pasos
   const setStep = (stepNumber) => {
     setQuestionnaireState((prev) => ({ ...prev, currentStep: stepNumber }));
+  };
+
+  // Reiniciar estado
+  const resetQuestionnaire = () => {
+    setQuestionnaireState(initialQuestionnaireState);
   };
 
   return (
@@ -80,7 +98,9 @@ export const QuestionnaireProvider = ({ children }) => {
         updateStep2CustomTarget,
         updateMiMeta,
         updateStep4Answer,
-        setStep 
+        updateSelectedArea,
+        setStep,
+        resetQuestionnaire
       }}
     >
       {children}
