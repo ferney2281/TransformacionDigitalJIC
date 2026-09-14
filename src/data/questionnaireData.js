@@ -1,3 +1,5 @@
+import logoApp from '/LogoFinalVerticalColor.png';
+
 export const getThermometerLevel = (score) => {
   if (score <= 8) {
     return {
@@ -186,8 +188,10 @@ export const questionnaireSteps = [
   {
     id: 5,
     code: "Paso 5",
-    title: "Informe de resultados",
-    subtitle: "Diagnóstico final"
+    title: "Resultados Diagnóstico y Madurez",
+    subtitle: "Informe final general",
+    logoSrc: logoApp,
+    logoAlt: "Logo del Proyecto 5RI"
   }
 ];
 
@@ -235,23 +239,27 @@ export const step4PillarsData = [
 
 // Opciones de áreas de la empresa para el Paso 5
 export const areasOptions = [
-  { id: "tech_software", label: "Technology / Software" },
-  { id: "fin_services", label: "Financial Services / Insurance" },
-  { id: "healthcare", label: "Healthcare / Life Sciences" },
-  { id: "manufacturing", label: "Fabricación" },
-  { id: "retail_ecommerce", label: "Retail / E-commerce" },
-  { id: "consumer_goods", label: "Consumer Goods" },
-  { id: "energy_utilities", label: "Energy / Utilities" },
-  { id: "telecom", label: "Telecomunications" },
-  { id: "transport_logistics", label: "Transportation / logistics" },
-  { id: "prof_services", label: "Professional Services" },
+  { id: "tech_software", label: "Tecnología / Software" },
+  { id: "fin_services", label: "Servicios financieros / Seguros" },
+  { id: "healthcare", label: "Cuidado de salud / Ciencias de la vida" },
+  { id: "manufacturing", label: "Fabricación / Manufactura" },
+  { id: "retail_ecommerce", label: "Comercio" },
+  { id: "consumer_goods", label: "Bienes de consumo" },
+  { id: "energy_utilities", label: "Energía / Servicios públicos" },
+  { id: "telecom", label: "Telecomunicaciones" },
+  { id: "transport_logistics", label: "Transporte / Logística" },
+  { id: "prof_services", label: "Servicios profesionales" },
   { id: "education", label: "Educación" },
-  { id: "public_sector", label: "Public Sector / Government" },
-  { id: "nonprofit_ngo", label: "Nonprofit / NGO" },
+  { id: "public_sector", label: "Sector público / Gobierno" },
+  { id: "construction_infrastructure", label: "Construcción e Infraestructura" },
+  { id: "agriculture_agro-industry", label: "Agricultura, ganadería y pesca / Agroindustria" },
+  { id: "tourism_gastronomy", label: "Turismo, hotelería y gastronomía" },
+  { id: "automotive", label: "Automotriz" },
+  { id: "nonprofit_ngo", label: "Organización sin ánimo de lucro / ONG" },
   { id: "otros", label: "Otros" }
 ];
 
-// 1. Lista de las 9 Dimensiones
+// Lista de las 9 Dimensiones
 export const dimensionsList = [
   { id: "D1", name: "D1 Centrado en el humano - Empleados" },
   { id: "D2", name: "D2 Centrado en el humano - Clientes" },
@@ -264,7 +272,7 @@ export const dimensionsList = [
   { id: "D9", name: "D9 Gestion de procesos" }
 ];
 
-// 2. Matriz de Acciones por Nivel y Dimensión
+// Matriz de Acciones por Nivel y Dimensión
 export const actionsDatabase = {
   "Limitado": [
     { dim: "D1", action: "Iniciar plan de upskilling del equipo con micro-credenciales y formatos cortos aplicados al puesto, con apoyo de programa institucional.", horizon: "H2 - Mediano (12-36 m)", id: "A-08" },
@@ -336,10 +344,168 @@ export const actionsDatabase = {
   ]
 };
 
-// 3. Metadatos de Metas para Paso 3
+// Metadatos de Metas para Paso 3
 export const metaDataMap = {
   "Vender mas y clientes": { label: "Vender más y relacionarse mejor con clientes", tools: "13 y 4" },
   "Operar mejor": { label: "Operar mejor (eficiencia)", tools: "14 y 15" },
   "Cuidar y cumplir": { label: "Cuidar y cumplir (riesgo y normativa)", tools: "7, 8 y 9" },
   "Avanzar a la 5RI": { label: "Avanzar hacia la 5RI (humana, sostenible, resiliente)", tools: "16, 10, 3 y 11" }
 };
+
+// Metadatos de títulos y labels para la sección de Modelos/Tecnología según la Meta
+export const reportGoalSectionData = {
+  sectionTitle: "Modelos de negocio y tecnología según la meta",
+  modelsTitle: "Modelos de negocio sugeridos",
+  techTitle: "Tecnologías clave para la meta"
+};
+
+// Metadatos de títulos y labels para la sección de Modelos/Tecnología según el Nivel de Madurez
+export const reportMaturitySectionData = {
+  sectionTitle: "Modelos de negocio y tecnología según nivel de madurez",
+  modelsTitle: "Modelos de negocio aplicables",
+  techTitle: "Tecnologías asociadas al nivel"
+};
+
+// Catálogo maestro
+export const masterBusinessModels = {
+  MN1: "MN1 - Servitización digital / PSS",
+  MN2: "MN2 - Plataforma mediada / ecosistema",
+  MN3: "MN3 - Circular / regenerativo",
+  MN4: "MN4 - Omnicanal / CRM-céntrico",
+  MN5: "MN5 - Suscripción / ingresos recurrentes",
+  MN6: "MN6 - Data-driven / hiperpersonalización responsable"
+};
+
+export const masterTechnologies = {
+  TE1: "TE1 - IA generativa y agéntica",
+  TE2: "TE2 - Cloud y arquitecturas híbridas",
+  TE3: "TE3 - CRM y marketing digital",
+  TE4: "TE4 - Automatización inteligente (RPA/BPA)",
+  TE5: "TE5 - Gemelos digitales y simulación",
+  TE6: "TE6 - Analítica de datos y gobierno del dato",
+  TE7: "TE7 - Physical AI: cobots y wearables"
+};
+
+// Matriz según Nivel de Madurez (Hoja 'Nivel')
+export const modelsAndTechByMaturity = {
+  "Limitado": {
+    intent: "Proteger y ordenar la base",
+    starterTools: "H7 - H8 - H15 - H13 - H4",
+    models: [
+      "MN4 - Omnicanal / CRM-céntrico (presencia/omnicanal básico)"
+    ],
+    technologies: [
+      "TE2 - Cloud y arquitecturas híbridas (respaldo/cloud)",
+      "TE3 - CRM y marketing digital (CRM básico)"
+    ]
+  },
+  "Transición": {
+    intent: "Priorizar y avanzar",
+    starterTools: "H5 - H6 - H13 - H14 - H11",
+    models: [
+      "MN4 - Omnicanal / CRM-céntrico",
+      "MN1 - Servitización digital / PSS (servitización inicial)",
+      "MN5 - Suscripción / ingresos recurrentes"
+    ],
+    technologies: [
+      "TE3 - CRM y marketing digital",
+      "TE6 - Analítica de datos y gobierno del dato (analítica)",
+      "TE4 - Automatización inteligente (RPA/BPA)"
+    ]
+  },
+  "En transición": {
+    intent: "Priorizar y avanzar",
+    starterTools: "H5 - H6 - H13 - H14 - H11",
+    models: [
+      "MN4 - Omnicanal / CRM-céntrico",
+      "MN1 - Servitización digital / PSS (servitización inicial)",
+      "MN5 - Suscripción / ingresos recurrentes"
+    ],
+    technologies: [
+      "TE3 - CRM y marketing digital",
+      "TE6 - Analítica de datos y gobierno del dato (analítica)",
+      "TE4 - Automatización inteligente (RPA/BPA)"
+    ]
+  },
+  "Avanzado": {
+    intent: "Optimizar y profundizar",
+    starterTools: "H9 - H10 - H16 - H12 - H14",
+    models: [
+      "MN3 - Circular / regenerativo",
+      "MN6 - Data-driven / hiperpersonalización responsable",
+      "MN1 - Servitización digital / PSS (PSS pleno)"
+    ],
+    technologies: [
+      "TE6 - Analítica de datos y gobierno del dato",
+      "TE1 - IA generativa y agéntica",
+      "TE4 - Automatización inteligente (RPA/BPA)"
+    ]
+  },
+  "Líder": {
+    intent: "Liderar e integrar",
+    starterTools: "H3 - H10 - H17 + rol tractor",
+    models: [
+      "MN2 - Plataforma mediada / ecosistema (plataforma tractora)",
+      "MN3 - Circular / regenerativo"
+    ],
+    technologies: [
+      "TE5 - Gemelos digitales y simulación",
+      "TE7 - Physical AI: cobots y wearables",
+      "TE1 - IA generativa y agéntica"
+    ]
+  }
+};
+
+// Matriz DIRECTA según la Meta Seleccionada (Hoja 'Meta' del Excel - Independiente del Nivel)
+export const businessModelsAndTechByGoal = {
+  "Vender mas y clientes": {
+    models: [
+      "MN4 - Omnicanal / CRM-céntrico",
+      "MN6 - Data-driven / hiperpersonalización responsable"
+    ],
+    technologies: [
+      "TE3 - CRM y marketing digital",
+      "TE1 - IA generativa y agéntica"
+    ]
+  },
+
+  "Operar mejor": {
+    models: [
+      "MN1 - Servitización digital / PSS",
+      "MN5 - Suscripción / ingresos recurrentes"
+    ],
+    technologies: [
+      "TE4 - Automatización inteligente (RPA/BPA)",
+      "TE6 - Analítica de datos y gobierno del dato"
+    ]
+  },
+
+  "Cuidar y cumplir": {
+    models: [
+      "MN6 - Data-driven / hiperpersonalización responsable",
+    ],
+    technologies: [
+      "TE2 - Cloud y arquitecturas híbridas",
+      "TE6 - Analítica de datos y gobierno del dato"
+    ]
+  },
+
+  "Avanzar a la 5RI": {
+    models: [
+      "MN1 - Servitización digital / PSS",
+      "MN3 - Circular / regenerativo",
+      "MN2 - Plataforma mediada / ecosistema"
+    ],
+    technologies: [
+      "TE7 - Physical AI: cobots y wearables",
+      "TE5 - Gemelos digitales y simulación",
+      "TE6 - Analítica de datos y gobierno del dato"
+    ]
+  }
+};
+
+// Aliases para soportar variantes con texto largo
+businessModelsAndTechByGoal["Vender más y relacionarse mejor con clientes"] = businessModelsAndTechByGoal["Vender mas y clientes"];
+businessModelsAndTechByGoal["Operar mejor (eficiencia)"] = businessModelsAndTechByGoal["Operar mejor"];
+businessModelsAndTechByGoal["Cuidar y cumplir (riesgo y normativa)"] = businessModelsAndTechByGoal["Cuidar y cumplir"];
+businessModelsAndTechByGoal["Avanzar hacia la 5RI (humana, sostenible, resiliente)"] = businessModelsAndTechByGoal["Avanzar a la 5RI"];

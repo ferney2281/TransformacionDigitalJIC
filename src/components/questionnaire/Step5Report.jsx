@@ -4,13 +4,18 @@ import { DimensionsRadarChart } from './DimensionsRadarChart';
 import { exportReportToPDF } from '../../services/pdf/pdfExportService';
 import { saveResponsesToGoogleSheets } from '../../services/sheetService';
 import { 
+  questionnaireSteps,
   step2DimensionsData, 
   step4PillarsData, 
   getDimensionLevel,
   getThermometerLevel,
   areasOptions,
   actionsDatabase,
-  metaDataMap
+  metaDataMap,
+  modelsAndTechByMaturity,
+  businessModelsAndTechByGoal,
+  reportGoalSectionData,
+  reportMaturitySectionData
 } from '../../data/questionnaireData';
 
 export const Step5Report = () => {
@@ -28,7 +33,12 @@ export const Step5Report = () => {
   const [isExporting, setIsExporting] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
 
-  // Normaliza el texto del nivel hacia las claves exactas de actionsDatabase
+  // 0. Obtener metadatos del Paso 5
+  const step5Meta = questionnaireSteps.find(step => step.id === 5) || {
+    title: "Resultados Diagnóstico y Madurez",
+    subtitle: "Informe final general"
+  };
+
   const getNormalizedLevelKey = (levelStr) => {
     if (!levelStr) return "Limitado";
     const str = levelStr.toLowerCase();
@@ -38,13 +48,13 @@ export const Step5Report = () => {
     return "Limitado";
   };
 
-  // 1. Paso 1
+  // 1. Cálculos Paso 1 (Termómetro Digital)
   const step1Scores = Object.values(step1Answers).map(v => Number(v) || 0);
   const digitalThermometerScore = step1Scores.reduce((acc, curr) => acc + curr, 0);
   const digitalThermometerMax = 24;
   const thermometerInfo = getThermometerLevel(digitalThermometerScore);
 
-  // 2. Paso 2
+  // 2. Cálculos Paso 2 (Autodiagnóstico por Dimensiones)
   const dimensionResults = (step2DimensionsData || []).map((dim) => {
     const questions = dim.questions || [];
     const answeredQ = questions.filter((q) => step2Answers[q.id] !== undefined && step2Answers[q.id] !== '');
@@ -66,19 +76,31 @@ export const Step5Report = () => {
     return { ...dim, score, level, gap, customTarget, gapVsCustom };
   });
 
-  // CÁLCULO DEL PUNTAJE Y NIVEL GENERAL
   const totalScores = dimensionResults.map(d => d.score);
   const generalScore = totalScores.length > 0 ? totalScores.reduce((a, b) => a + b, 0) / totalScores.length : 0;
   const generalLevel = typeof getDimensionLevel === 'function' ? getDimensionLevel(generalScore) : "Limitado";
 
-  // OBTENCIÓN GLOBAL DE ACCIONES BASADAS EN EL NIVEL GENERAL DE LA EMPRESA
   const generalLevelKey = getNormalizedLevelKey(generalLevel);
-  const globalActionsForLevel = actionsDatabase[generalLevelKey] || actionsDatabase["Limitado"];
 
-  // 3. Paso 3
+  // 3. Búsqueda de datos para Secciones dinámicas
   const metaInfo = metaDataMap[miMeta] || { label: miMeta || "No seleccionada", tools: "14 y 15" };
 
-  // 4. Paso 4
+  // A. Modelos y Tecnologías SEGÚN LA META
+  const goalModelsAndTech = businessModelsAndTechByGoal[miMeta] || businessModelsAndTechByGoal[metaInfo.label] || {
+    models: ["Modelos de negocio adaptados a su meta comercial u operacional."],
+    technologies: ["Herramientas de apoyo tecnológico específicas según requerimiento."]
+  };
+
+  // B. Acciones Recomendadas por Nivel
+  const rawActions = actionsDatabase[generalLevelKey] || actionsDatabase["Limitado"] || [];
+  const globalActionsForLevel = typeof rawActions === 'function'
+    ? rawActions(miMeta)
+    : (Array.isArray(rawActions) ? rawActions : (rawActions[miMeta] || rawActions[metaInfo.label] || []));
+
+  // C. Modelos y Tecnologías SEGÚN NIVEL DE MADUREZ
+  const maturityModelsAndTech = modelsAndTechByMaturity[generalLevelKey] || modelsAndTechByMaturity[generalLevel] || modelsAndTechByMaturity["Limitado"];
+
+  // 4. Cálculos Paso 4 (Pilares Industria 5.0)
   const pillarsList = step4PillarsData || [];
   const getPillarScore = (pillar) => {
     if (!pillar || !pillar.questions) return 0;
@@ -102,7 +124,6 @@ export const Step5Report = () => {
     }
   });
 
-  // HANDLER PRINCIPAL: GUARDAR EN GOOGLE SHEETS Y GENERAR PDF
   const handleExportPDF = async () => {
     if (!selectedArea) {
       alert("Por favor seleccione el área de la empresa antes de exportar.");
@@ -113,7 +134,6 @@ export const Step5Report = () => {
     setSuccessMessage('');
 
     try {
-      // 1. Guardar registro consolidado en Google Sheets
       const payloadToSave = {
         fecha: new Date().toLocaleString(),
         area: selectedArea,
@@ -133,7 +153,6 @@ export const Step5Report = () => {
 
       await saveResponsesToGoogleSheets(payloadToSave);
 
-      // 2. Exportar el informe a PDF
       const fileName = `Reporte_Diagnostico_${selectedArea}_${Date.now()}.pdf`;
       await exportReportToPDF(reportRef.current, fileName);
 
@@ -150,8 +169,6 @@ export const Step5Report = () => {
 
   return (
     <div className="step5-report-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%', maxWidth: '1000px', margin: '0 auto' }}>
-      
-      {/* Reglas CSS inyectadas para forzar el comportamiento anti-corte en PDF */}
       <style>{`
         .pdf-section {
           page-break-inside: avoid !important;
@@ -159,16 +176,35 @@ export const Step5Report = () => {
         }
       `}</style>
 
-      {/* MENSAJE DE ÉXITO */}
       {successMessage && (
         <div style={{ padding: '1rem', backgroundColor: '#dcfce7', border: '1px solid #86efac', borderRadius: '12px', color: '#166534', fontWeight: 'bold', textAlign: 'center' }}>
           {successMessage}
         </div>
       )}
 
-      {/* ÁREA QUE SERÁ IMPRESA EN EL PDF DIVIDIDA EN .pdf-section */}
       <div ref={reportRef} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', backgroundColor: '#ffffff', padding: '1rem' }}>
         
+        {/* ENCABEZADO */}
+        <div className="pdf-section" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', padding: '1.5rem 2rem', backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.02)' }}>
+          {step5Meta.logoSrc && (
+            <div style={{ width: '140px', height: '75px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px', flexShrink: 0 }}>
+              <img 
+                src={step5Meta.logoSrc} 
+                alt={step5Meta.logoAlt || "Logo"}
+                style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+              />
+            </div>
+          )}
+          <div style={{ flex: 1 }}>
+            <h1 style={{ fontSize: '1.75rem', fontWeight: '800', color: '#0f172a', margin: 0, lineHeight: 1.2 }}>
+              {step5Meta.title}
+            </h1>
+            <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.9rem', color: '#64748b' }}>
+              {step5Meta.subtitle}
+            </p>
+          </div>
+        </div>
+
         {/* SELECCIÓN ÁREA */}
         <div className="pdf-section q-card" style={{ padding: '1.5rem 2rem', backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
           <label htmlFor="areaSelect" style={{ display: 'block', fontWeight: 'bold', fontSize: '1.1rem', color: '#0f172a', marginBottom: '0.5rem' }}>
@@ -190,7 +226,7 @@ export const Step5Report = () => {
           </select>
         </div>
 
-        {/* TERMÓMETRO */}
+        {/* TERMÓMETRO DIGITAL */}
         <div className="pdf-section" style={{ padding: '1.5rem 2rem', backgroundColor: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div style={{ flex: 1 }}>
             <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#0f172a', margin: '0 0 0.5rem 0' }}>Resultados del Termómetro Digital</h4>
@@ -256,6 +292,36 @@ export const Step5Report = () => {
           <p style={{ margin: 0, fontSize: '0.95rem', color: '#334155' }}>Refuerce las herramientas {metaInfo.tools}.</p>
         </div>
 
+        {/* SECCIÓN 1: MODELOS Y TECNOLOGÍA SEGÚN LA META */}
+        <div className="pdf-section" style={{ padding: '1.5rem 2rem', backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div style={{ borderBottom: '2px solid #f1f5f9', paddingBottom: '0.5rem' }}>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#0f172a', margin: 0 }}>
+              {reportGoalSectionData?.sectionTitle || "Modelos de negocio y tecnología según la meta"}
+            </h3>
+            <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.85rem', color: '#64748b' }}>
+              Caracterización directa para la meta elegida: <strong>{metaInfo.label}</strong>
+            </p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
+            <div style={{ padding: '1rem', backgroundColor: '#f8fafc', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
+              <h4 style={{ fontSize: '0.95rem', fontWeight: 'bold', color: '#2563eb', margin: '0 0 0.5rem 0' }}>{reportGoalSectionData?.modelsTitle || "Modelos de negocio sugeridos"}</h4>
+              <ul style={{ margin: 0, paddingLeft: '1.2rem', fontSize: '0.9rem', color: '#334155' }}>
+                {(goalModelsAndTech.models || []).map((item, idx) => (
+                  <li key={idx} style={{ marginBottom: '0.25rem' }}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div style={{ padding: '1rem', backgroundColor: '#f8fafc', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
+              <h4 style={{ fontSize: '0.95rem', fontWeight: 'bold', color: '#059669', margin: '0 0 0.5rem 0' }}>{reportGoalSectionData?.techTitle || "Tecnologías clave para la meta"}</h4>
+              <ul style={{ margin: 0, paddingLeft: '1.2rem', fontSize: '0.9rem', color: '#334155' }}>
+                {(goalModelsAndTech.technologies || []).map((item, idx) => (
+                  <li key={idx} style={{ marginBottom: '0.25rem' }}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
         {/* PASO 4 RESULTADOS */}
         <div className="pdf-section" style={{ padding: '1.5rem 2rem', backgroundColor: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div style={{ flex: 1 }}>
@@ -283,13 +349,48 @@ export const Step5Report = () => {
           </div>
         </div>
 
-        {/* ACCIONES RECOMENDADAS - CADA DIMENSIÓN ES UN BLOQUE PDF-SECTION SEPARADO */}
-        <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#0f172a', margin: 0 }}>
-              Acciones recomendadas por Dimensión
+        {/* SECCIÓN 2: MODELOS Y TECNOLOGÍA SEGÚN NIVEL DE MADUREZ */}
+        <div className="pdf-section" style={{ padding: '1.5rem 2rem', backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div style={{ borderBottom: '2px solid #f1f5f9', paddingBottom: '0.5rem' }}>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#0f172a', margin: 0 }}>
+              {reportMaturitySectionData?.sectionTitle || "Modelos de negocio y tecnología según nivel de madurez"}
             </h3>
-            <span style={{ fontSize: '0.9rem', fontWeight: '600', color: '#1e40af', backgroundColor: '#dbeafe', padding: '6px 12px', borderRadius: '8px' }}>
+            <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.85rem', color: '#64748b' }}>
+              Capacidades habilitadoras recomendadas para el nivel general <strong>{generalLevel}</strong>:
+            </p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
+            <div style={{ padding: '1rem', backgroundColor: '#f8fafc', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
+              <h4 style={{ fontSize: '0.95rem', fontWeight: 'bold', color: '#2563eb', margin: '0 0 0.5rem 0' }}>{reportMaturitySectionData?.modelsTitle || "Modelos de negocio aplicables"}</h4>
+              <ul style={{ margin: 0, paddingLeft: '1.2rem', fontSize: '0.9rem', color: '#334155' }}>
+                {(maturityModelsAndTech.models || []).map((item, idx) => (
+                  <li key={idx} style={{ marginBottom: '0.25rem' }}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div style={{ padding: '1rem', backgroundColor: '#f8fafc', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
+              <h4 style={{ fontSize: '0.95rem', fontWeight: 'bold', color: '#059669', margin: '0 0 0.5rem 0' }}>{reportMaturitySectionData?.techTitle || "Tecnologías asociadas al nivel"}</h4>
+              <ul style={{ margin: 0, paddingLeft: '1.2rem', fontSize: '0.9rem', color: '#334155' }}>
+                {(maturityModelsAndTech.technologies || []).map((item, idx) => (
+                  <li key={idx} style={{ marginBottom: '0.25rem' }}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* SECCIÓN 3: ACCIONES SEGÚN EL NIVEL DE MADUREZ */}
+        <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div className="pdf-section" style={{ padding: '1.25rem 1.5rem', backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#0f172a', margin: 0 }}>
+                Acciones según el nivel de madurez
+              </h3>
+              <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.85rem', color: '#64748b' }}>
+                Plan de intervención priorizado por dimensiones para el nivel alcanzado
+              </p>
+            </div>
+            <span style={{ fontSize: '0.9rem', fontWeight: '600', color: '#1e40af', backgroundColor: '#dbeafe', padding: '6px 12px', borderRadius: '8px', whiteSpace: 'nowrap' }}>
               Nivel General: {generalLevel}
             </span>
           </div>
@@ -337,7 +438,6 @@ export const Step5Report = () => {
                         }}
                       >
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#2563eb' }}>ID: {act.id}</span>
                           <span style={{ fontSize: '0.8rem', fontWeight: '600', color: '#d97706', backgroundColor: '#fef3c7', padding: '2px 8px', borderRadius: '4px' }}>
                             {act.horizon}
                           </span>
@@ -358,7 +458,7 @@ export const Step5Report = () => {
           })}
         </div>
 
-        {/* GRÁFICO DE RADAR - SECCIÓN INDIVIDUAL ATÓMICA */}
+        {/* GRÁFICO DE RADAR */}
         <div className="pdf-section" style={{ padding: '1rem', backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
           <DimensionsRadarChart dimensionResults={dimensionResults} />
         </div>

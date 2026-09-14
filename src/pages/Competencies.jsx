@@ -4,6 +4,7 @@ import { Footer } from '../components/layout/Footer';
 import { NivelesDominio } from '../components/competencies/NivelesDominio';
 import { Gobernanza } from '../components/competencies/Gobernanza';
 import { Development } from '../components/competencies/Development';
+import { Estrategias } from '../components/competencies/Estrategias';
 import { Roadmap } from '../components/competencies/Roadmap';
 import { OnlineCourses } from '../components/competencies/OnlineCourses';
 
@@ -151,6 +152,7 @@ export const Competencies = () => {
           {activeMainTab === 'niveles' && <NivelesDominio />}
           {activeMainTab === 'gobernanza' && <Gobernanza />}
           {activeMainTab === 'desarrollo' && <Development />}
+          {activeMainTab === 'estrategias' && <Estrategias />}
           {activeMainTab === 'hoja-ruta' && <Roadmap />}
           {activeMainTab === 'cursos' && <OnlineCourses />}
 

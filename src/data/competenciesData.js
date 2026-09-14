@@ -12,7 +12,8 @@ export const mainTabsData = [
   { id: 'gobernanza', label: 'Gobernanza', icon: 'account_balance' },
   { id: 'desarrollo', label: 'Desarrollo', icon: 'rocket_launch' },
   { id: 'hoja-ruta', label: 'Hoja de ruta', icon: 'map' },
-  { id: 'cursos', label: 'Cursos abiertos', icon: 'desktop_windows' }
+  { id: 'cursos', label: 'Cursos abiertos', icon: 'desktop_windows' },
+  { id: 'estrategias', label: 'Estrategias', icon: 'lightbulb' }
 ];
 
 // 2. Sub-navegación del Catálogo
@@ -466,41 +467,228 @@ export const coursesData = {
   categories: [
     { id: "all", label: "Todos" },
     { id: "tecnologia", label: "Tecnología" },
+    { id: "ia", label: "Inteligencia Artificial" },
+    { id: "ciberseguridad", label: "Ciberseguridad" },
+    { id: "marketing", label: "Marketing Digital" },
     { id: "gestion", label: "Gestión" },
     { id: "innovacion", label: "Innovación" },
-    { id: "personas", label: "Personas" },
+    { id: "personas", label: "Personas y Bienestar" },
     { id: "sostenibilidad", label: "Sostenibilidad" }
   ],
   items: [
     {
       id: "c1",
-      title: "Transformación digital para Mipymes",
-      platform: "Coursera",
-      category: "gestion",
-      certificate: "Certificado opcional",
+      title: "Portafolio AvanzaTEC (53 cursos)",
+      platform: "MinTIC + 15 aliados tecnológicos",
+      category: "tecnologia",
+      certificate: "Certificado de industria",
       price: "Gratuito",
-      logoType: "meta",
-      url: "https://www.coursera.org"
+      logoType: "avanzatec",
+      url: "https://avanzatec.gov.co",
+      description: "Formación virtual en IA, ciberseguridad, analítica de datos, marketing digital, comercio electrónico y prompt engineering; clases en vivo y contenido asincrónico.",
+      relevance: "Cobertura transversal de CA1–CA5; canal público nacional para cierre de brechas."
     },
     {
       id: "c2",
-      title: "Fundamentos de IA Generativa",
-      platform: "Google Skills",
-      category: "tecnologia",
-      certificate: "Certificado",
-      price: "Gratuito",
+      title: "Certificado de carrera en Marketing Digital y E-commerce",
+      platform: "Google / Coursera",
+      category: "marketing",
+      certificate: "Certificado Google",
+      price: "Auditable sin costo",
       logoType: "google",
-      url: "https://skillshop.exceedlms.com"
+      url: "https://www.coursera.org",
+      description: "Ruta completa de atracción de clientes, pauta digital, tienda en línea y analítica de marketing.",
+      relevance: "CA2–CA3 (C2.1, C3.1, C3.2); ataca las brechas del frente comercial: D8 (1,63) y D2 (1,58)."
     },
     {
       id: "c3",
-      title: "Herramientas digitales para la productividad",
-      platform: "SENA",
-      category: "tecnologia",
+      title: "Inbound marketing y CRM gratuito",
+      platform: "HubSpot Academy",
+      category: "marketing",
       certificate: "Certificado",
       price: "Gratuito",
+      logoType: "hubspot",
+      url: "https://academy.hubspot.com/es",
+      description: "Metodología de atracción y conversión de clientes y configuración de un CRM gratuito para seguimiento sistemático.",
+      relevance: "CA2 (C2.2); habilita el KPI de clientes gestionados en CRM."
+    },
+    {
+      id: "c4",
+      title: "Marketing digital; análisis y visualización de datos",
+      platform: "SENA — Sofía Plus / Betowa",
+      category: "marketing",
+      certificate: "Certificación oficial",
+      price: "Gratuito",
       logoType: "sena",
-      url: "https://sena.territorio.la"
+      url: "https://betowa.sena.edu.co",
+      description: "Cursos y programas técnicos virtuales: estrategia de marketing, SEO, analítica con SQL y Power BI.",
+      relevance: "CA1–CA2 (C1.2, C1.3); certificación de competencias laborales; canal natural estatal."
+    },
+    {
+      id: "c5",
+      title: "Introducción a la Ciberseguridad",
+      platform: "Cisco Networking Academy",
+      category: "ciberseguridad",
+      certificate: "Insignia digital",
+      price: "Gratuito",
+      logoType: "cisco",
+      url: "https://www.netacad.com",
+      description: "Fundamentos de protección digital personal y empresarial (~6 h).",
+      relevance: "CA4 (C4.1); responde a D4 —el score actual más bajo, 1,13— y a la acción no-regret de ciberhigiene."
+    },
+    {
+      id: "c6",
+      title: "Introducción a la IA generativa",
+      platform: "Google Skills / Cloud Skills Boost",
+      category: "ia",
+      certificate: "Insignia verificable",
+      price: "Gratuito",
+      logoType: "google",
+      url: "https://skills.google",
+      description: "Fundamentos de IA generativa sin prerrequisitos técnicos.",
+      relevance: "CA5 (C5.1); puerta de entrada al uso responsable de IA."
+    },
+    {
+      id: "c7",
+      title: "Transformación de su negocio con IA (líderes y directores de pymes)",
+      platform: "Microsoft Learn",
+      category: "ia",
+      certificate: "Insignia / Certificado",
+      price: "Gratuito",
+      logoType: "microsoft",
+      url: "https://learn.microsoft.com",
+      description: "Aplicación de IA en optimización de procesos, análisis de datos y decisión estratégica para decisores.",
+      relevance: "CA5–CA6 (C5.1, C6.1); forma primero al decisor; fortalece D5 (1,59)."
+    },
+    {
+      id: "c8",
+      title: "Fundamentos de Inteligencia Artificial",
+      platform: "IBM SkillsBuild",
+      category: "ia",
+      certificate: "Insignia digital IBM",
+      price: "Gratuito",
+      logoType: "ibm",
+      url: "https://skillsbuild.org/es",
+      description: "Conceptos de machine learning, deep learning y procesamiento de lenguaje natural (~10 h).",
+      relevance: "CA5 (C5.1) y alfabetización de datos (CA1); apoya la dimensión D6 (1,56)."
+    },
+    {
+      id: "c9",
+      title: "MOOCs Conecta Empleo",
+      platform: "Fundación Telefónica",
+      category: "gestion",
+      certificate: "Certificado",
+      price: "Gratuito",
+      logoType: "telefonica",
+      url: "https://conectaempleo-formacion.fundaciontelefonica.com",
+      description: "Más de 30 MOOCs: gestión ágil de proyectos, emprendimiento digital, finanzas para emprendedores y ciberseguridad.",
+      relevance: "CA3, CA4 y CA6 (C3.4, C6.1); apoya D5 y D7 en perfiles directivos y de mandos medios."
+    },
+    {
+      id: "c10",
+      title: "Aprendiendo a aprender",
+      platform: "Deep Teaching Solutions / Coursera",
+      category: "personas",
+      certificate: "Certificado opcional",
+      price: "Gratuito",
+      logoType: "coursera",
+      url: "https://www.coursera.org/learn/aprendiendo-a-aprender",
+      description: "Herramientas mentales de aprendizaje eficaz: gestión de la procrastinación, memoria y práctica espaciada.",
+      relevance: "CA7 (C7.3); sustenta la cultura de aprendizaje continuo y ataca la brecha intención-acción."
+    },
+    {
+      id: "c11",
+      title: "La ciencia del bienestar",
+      platform: "Universidad de Yale / Coursera",
+      category: "personas",
+      certificate: "Certificado opcional",
+      price: "Gratuito",
+      logoType: "yale",
+      url: "https://www.coursera.org",
+      description: "Hábitos y prácticas de bienestar basadas en evidencia, con retos semanales aplicados.",
+      relevance: "CA7 (C7.1); protege el activo humano (D1), la única dimensión con techo objetivo Líder."
+    },
+    {
+      id: "c12",
+      title: "Economía circular (introducción; envases y empaques)",
+      platform: "TU Delft y LOGYCA / edX",
+      category: "sostenibilidad",
+      certificate: "Certificado opcional",
+      price: "Auditable sin costo",
+      logoType: "edx",
+      url: "https://www.edx.org",
+      description: "Fundamentos de circularidad y aplicación a producto, envase y empaque en contexto latinoamericano.",
+      relevance: "CA8 (C8.4); impulsa D3 (1,54) y preparación para las exigencias ESG de cadena de valor."
+    },
+    {
+      id: "c13",
+      title: "MOOCs de transformación digital y desarrollo",
+      platform: "AcademiaBID",
+      category: "innovacion",
+      certificate: "Certificado",
+      price: "Gratuito",
+      logoType: "bid",
+      url: "https://cursos.iadb.org/es",
+      description: "Cursos para América Latina y el Caribe en transformación digital, sostenibilidad y economía digital.",
+      relevance: "CA6 y CA8; complementa el Chequeo Digital del BID ya integrado a esta guía."
     }
   ]
+};
+
+//  Componente Estrategias (o importando developmentData.strategies)
+export const strategiesData = {
+  header: {
+    title: "Estrategias generales de desarrollo de competencias",
+    description: "Las estrategias generales se sustentan en literatura internacional y regional, y son aplicables a cualquier compañía, con independencia de su sector o tamaño. Siguen el principio de paquetes de competencias (skills bundles) propuesto por la OCDE [4].",
+    icon: "lightbulb"
+  },
+  items: [
+    {
+      id: "s1",
+      title: "Formar primero al decisor y luego distribuir",
+      description: "El liderazgo digital es el cuello de botella estructural; la formación comienza por el decisor, pero se distribuye hacia mandos medios y equipos [2], [5].",
+      icon: "supervisor_account"
+    },
+    {
+      id: "s2",
+      title: "Aprender haciendo sobre el puesto de trabajo",
+      description: "Micro-credenciales y formatos cortos vinculados a una tarea real superan a la formación genérica, y reducen la brecha intención-acción en upskilling [3], [4].",
+      icon: "work_history"
+    },
+    {
+      id: "s3",
+      title: "Paquetes, no competencias aisladas",
+      description: "Cada intervención formativa combina una competencia instrumental con una humano-céntrica [4].",
+      icon: "widgets"
+    },
+    {
+      id: "s4",
+      title: "Canalizar la oferta institucional",
+      description: "Antes de crear oferta propia, vincular a las personas a Talento Tech, al SENA y demás ofertas institucionales, y a las organizaciones al CTDE y a la CCOA [6], [14], [15].",
+      icon: "account_balance"
+    },
+    {
+      id: "s5",
+      title: "Gobernar el cambio",
+      description: "Asignar un responsable, un ritmo y derechos de decisión, y anticipar los factores inhibidores [5], [19].",
+      icon: "settings_suggest"
+    },
+    {
+      id: "s6",
+      title: "Medir con indicadores líderes",
+      description: "Definir indicadores que anticipen el avance —no solo resultados tardíos— y revisar el retorno de manera periódica [20], [5].",
+      icon: "analytics"
+    },
+    {
+      id: "s7",
+      title: "Apalancar la IA como amplificador del aprendizaje",
+      description: "Las herramientas de IA generativa pueden actuar como tutor adaptativo y como andamiaje en el puesto de trabajo, reduciendo el costo de la formación a la medida; su adopción formativa exige criterio y supervisión humana [2], [3].",
+      icon: "smart_toy"
+    }
+  ],
+  aiAmplification: {
+    title: "La IA como amplificador del desarrollo de competencias",
+    description: "Las tecnologías de IA, y en particular la IA generativa, no son solo un contenido a aprender: son un vehículo que acelera el desarrollo de las demás competencias.",
+    icon: "auto_awesome"
+  }
 };
