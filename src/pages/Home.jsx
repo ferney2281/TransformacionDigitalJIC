@@ -1,5 +1,5 @@
-// src/pages/Home.jsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { siteContent } from '../data/contentData';
 
 import { Navbar } from '../components/layout/Navbar';
@@ -9,6 +9,12 @@ import './Home.css';
 
 export const Home = () => {
   const { hero, cards, bannerCta } = siteContent;
+  const navigate = useNavigate();
+
+  const handleStartQuestionnaire = () => {
+    navigate('/questionnaire'); // Cambia '/cuestionario' por la ruta real de tu diagnóstico
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="main-layout">
@@ -23,7 +29,13 @@ export const Home = () => {
               <span className="title-gold">{hero.titlePart2}</span>
             </h1>
             <p className="hero-description">{hero.description}</p>
-            <button className="btn-primary">{hero.buttonText}</button>
+            <button 
+              type="button"
+              className="btn-primary" 
+              onClick={handleStartQuestionnaire}
+            >
+              {hero.buttonText}
+            </button>
           </div>
           <div className="hero-image">
             <img src={hero.imageUrl} alt="Transformación Digital 5RI" />
@@ -54,7 +66,13 @@ export const Home = () => {
             <div className="banner-subtitle">
               {bannerCta.subtitle}
             </div>
-            <button className="btn-primary">{bannerCta.buttonText}</button>
+            <button 
+              type="button"
+              className="btn-primary" 
+              onClick={handleStartQuestionnaire}
+            >
+              {bannerCta.buttonText}
+            </button>
           </div>
         </section>
       </div>
